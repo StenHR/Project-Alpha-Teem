@@ -45,4 +45,27 @@ class Player
 
     }
    
+   //Movement
+   public void Move(string direction)
+   {
+        Location newLocation = direction.ToLower() switch
+        {
+            "north" => CurrentLocation.LocationToNorth,
+            "south" => CurrentLocation.LocationToSouth,
+            "east"  => CurrentLocation.LocationToEast,
+            "west"  => CurrentLocation.LocationToWest,
+            _ => null
+        };
+
+        if (newLocation != null)
+        {
+            CurrentLocation = newLocation;
+            Console.WriteLine($"You have moved to {CurrentLocation.Name}");
+            CurrentLocation.ShowDescription();
+        }
+        else
+        {
+            Console.WriteLine("You can't go that way.");
+        }
+   }
 }
