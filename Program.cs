@@ -2,10 +2,7 @@
 {
     public static void Main()
     {
-        // game code here;
-
-
-
+        Console.WriteLine("Hello, world");
     }
     
     public static void Dialog(string dialog)
