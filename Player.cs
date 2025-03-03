@@ -61,7 +61,7 @@ public class Player
         {
             CurrentLocation = newLocation;
             Console.WriteLine($"You have moved to {CurrentLocation.Name}");
-            CurrentLocation.ShowDescription();
+            Console.WriteLine(CurrentLocation.ShowDescription());
         }
         else
         {

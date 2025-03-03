@@ -2,7 +2,7 @@
 {
     public static void Main()
     {
-        Console.WriteLine("Hello, world");
+        Dialog("Hello, world");
     }
     
     public static void Dialog(string dialog)
