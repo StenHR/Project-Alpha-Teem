@@ -16,7 +16,7 @@ public class Location
         this.ID = id;
         this.Name = name;
         this.Description = description;
-        this.QuestAvailableHere = questAvailableHere;
+        this.QuestAvailableHere = questAvailableHere ?? new List<Quest>(); ;
         this.MonsterLivingHere = monsterLivingHere;
     }
     
