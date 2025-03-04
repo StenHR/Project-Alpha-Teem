@@ -60,12 +60,12 @@ public class Player
         if (newLocation != null)
         {
             CurrentLocation = newLocation;
-            Console.WriteLine($"You have moved to {CurrentLocation.Name}");
-            Console.WriteLine(CurrentLocation.ShowDescription());
+            Print.Dialog($"You have moved to {CurrentLocation.Name}");
+            Print.Dialog(CurrentLocation.ShowDescription());
         }
         else
         {
-            Console.WriteLine("You can't go that way.");
+            Print.Dialog("You can't go that way.");
         }
    }
 }

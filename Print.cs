@@ -58,7 +58,7 @@ public static class Print
             Console.Write(dialog[i]);
         }
         Console.ResetColor();
-        Console.WriteLine();
+        Print.Dialog();
     }
 
     private static void PrintTypeEffect(string dialog, ConsoleColor[] colors, int typeSpeed)
@@ -70,7 +70,7 @@ public static class Print
             Thread.Sleep(typeSpeed);
         }
         Console.ResetColor();
-        Console.WriteLine();
+        Print.Dialog();
     }
 
     private static ConsoleColor[] GetColorArray(string dialog, ConsoleColor baseColor, ColorMode colorMode)

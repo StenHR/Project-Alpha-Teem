@@ -18,7 +18,7 @@
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                Console.WriteLine("Please enter a name...");
+                Print.Dialog("Please enter a name...");
             }
         }
         while (string.IsNullOrWhiteSpace(name));
@@ -34,11 +34,11 @@
         var x = true;
         while (x)
         {
-            Console.WriteLine("[1] Go North");
-            Console.WriteLine("[2] Go West");
-            Console.WriteLine("[3] Go East");
-            Console.WriteLine("[4] Go South");
-            Console.WriteLine("[5] Description");
+            Print.Dialog("[1] Go North");
+            Print.Dialog("[2] Go West");
+            Print.Dialog("[3] Go East");
+            Print.Dialog("[4] Go South");
+            Print.Dialog("[5] Description");
             string input = Console.ReadLine();
             switch (input.ToLower())
             {
@@ -55,7 +55,7 @@
                     player.Move("south");
                     continue;
                 case "5":
-                    Console.WriteLine(startLocation.Description);
+                    Print.Dialog(startLocation.Description);
                     continue;
                 default:
                     continue;
