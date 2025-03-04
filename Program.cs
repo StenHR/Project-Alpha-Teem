@@ -13,7 +13,7 @@
 
         do
         {
-            Dialog("Welcome, player! What is thy name? ");
+            Print.Dialog("Welcome, player! What is thy name? ");
             name = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(name))
@@ -27,19 +27,9 @@
         Player player = new(name, startLocation);
         player.CurrentWeapon = World.Weapons[0];
 
-        Dialog($"Hello there {player.Name}!");
-        Dialog("Here's thy deal... The people in town are being terrorized by giant spiders.\n" +
+        Print.Dialog($"Hello there {player.Name}!");
+        Print.Dialog("Here's thy deal... The people in town are being terrorized by giant spiders.\n" +
             "You decide to do what you can to help. \n\r\nObjective: complete all quests");
 
-    }
-    
-    public static void Dialog(string dialog)
-    {
-        foreach (var i in dialog)
-        {
-            Console.Write(i);
-            Thread.Sleep(60);
-        }
-        Console.WriteLine();
     }
 }

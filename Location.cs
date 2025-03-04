@@ -22,15 +22,15 @@ public class Location
     
     public void ShowQuests()
     {
-        Program.Dialog("The following quests are available:\n");
+        Print.Dialog("The following quests are available:\n");
 
         foreach (var quest in QuestAvailableHere)
         {
-            Program.Dialog(new string('=', 20));
-            Program.Dialog($"Quest number   : {quest.ID}");
-            Program.Dialog($"Name       : {quest.Name}");
-            Program.Dialog($"Description: {quest.Description}");
-            Program.Dialog(new string('=', 20));
+            Print.Dialog(new string('=', 20));
+            Print.Dialog($"Quest number   : {quest.ID}");
+            Print.Dialog($"Name       : {quest.Name}");
+            Print.Dialog($"Description: {quest.Description}");
+            Print.Dialog(new string('=', 20));
         }
     }
 
@@ -41,14 +41,14 @@ public class Location
     
     public Quest PickQuest()
     {
-        Program.Dialog("Please enter the number of the quest you would like to take:");
+        Print.Dialog("Please enter the number of the quest you would like to take:");
         int questNumber;
-        Program.Dialog(">> ");
+        Print.Dialog(">> ");
     
         while (!int.TryParse(Console.ReadLine(), out questNumber))
         {
-            Program.Dialog("Invalid input. Please enter a valid quest number:");
-            Program.Dialog(">> ");
+            Print.Dialog("Invalid input. Please enter a valid quest number:");
+            Print.Dialog(">> ");
         }
     
         return QuestAvailableHere.FirstOrDefault(q => q.ID == questNumber);
