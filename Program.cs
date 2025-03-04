@@ -24,7 +24,7 @@
         while (string.IsNullOrWhiteSpace(name));
 
         Location startLocation = World.LocationByID(World.LOCATION_ID_HOME);
-        Player player = new("Sten", startLocation);
+        Player player = new(name, startLocation);
         player.CurrentWeapon = World.Weapons[0];
 
         Dialog($"Hello there {player.Name}!");
