@@ -3,7 +3,7 @@ public class Location
     public int ID;
     public string Name;
     public string Description;
-    public List<Quest> QuestAvailableHere;
+    public List<Quest> QuestAvailableHere = new();
     public Monster MonsterLivingHere;
     public Location LocationToNorth;
     public Location LocationToSouth;
@@ -16,7 +16,7 @@ public class Location
         this.ID = id;
         this.Name = name;
         this.Description = description;
-        this.QuestAvailableHere = questAvailableHere;
+        this.QuestAvailableHere = questAvailableHere ?? new List<Quest>(); ;
         this.MonsterLivingHere = monsterLivingHere;
     }
     
@@ -32,6 +32,11 @@ public class Location
             Program.Dialog($"Description: {quest.Description}");
             Program.Dialog(new string('=', 20));
         }
+    }
+
+    public string ShowDescription()
+    {
+        return Description;
     }
     
     public Quest PickQuest()
