@@ -70,7 +70,7 @@
                 case "s":
                     player.Move("south");
                     continue;
-                case "5":
+                case "l":
                     startLocation.ShowQuests(startLocation.QuestAvailableHere);
                     continue;
                 default:
