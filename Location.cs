@@ -20,11 +20,11 @@ public class Location
         this.MonsterLivingHere = monsterLivingHere;
     }
     
-    public void ShowQuests(IEnumerable<Quest> quests)
+    public void ShowQuests()
     {
         Program.Dialog("The following quests are available:\n");
 
-        foreach (var quest in quests)
+        foreach (var quest in QuestAvailableHere)
         {
             Program.Dialog(new string('=', 20));
             Program.Dialog($"Quest number   : {quest.ID}");
