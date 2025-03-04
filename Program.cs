@@ -34,33 +34,47 @@
         var x = true;
         while (x)
         {
-            Console.WriteLine("[1] Go North");
-            Console.WriteLine("[2] Go West");
-            Console.WriteLine("[3] Go East");
-            Console.WriteLine("[4] Go South");
-            Console.WriteLine("[5] Description");
+            Console.WriteLine();
+
+            if (player.CurrentLocation.LocationToNorth != null)
+            {
+            Console.WriteLine($"[W] Go North");
+            }
+            if (player.CurrentLocation.LocationToWest != null)
+            {
+            Console.WriteLine($"[A] Go West");
+            }
+            if (player.CurrentLocation.LocationToSouth != null)
+            {
+            Console.WriteLine($"[S] Go South");
+            }
+            if (player.CurrentLocation.LocationToEast != null)
+            {
+            Console.WriteLine($"[D] Go East");
+            }
+            Console.WriteLine($"[L] Quest Log");
+            
+
             string input = Console.ReadLine();
             switch (input.ToLower())
             {
-                case "1":
+                case "w":
                     player.Move("north");
                     continue;
-                case "2":
+                case "a":
                     player.Move("west");
                     continue;
-                case "3":
+                case "d":
                     player.Move("east");
                     continue;
-                case "4":
+                case "s":
                     player.Move("south");
                     continue;
                 case "5":
-                    Console.WriteLine(startLocation.Description);
+                    startLocation.ShowQuests(startLocation.QuestAvailableHere);
                     continue;
                 default:
                     continue;
-
-
             }
         }
 
