@@ -27,6 +27,7 @@ public static class World
     public const int LOCATION_ID_FARM_FIELD = 7;
     public const int LOCATION_ID_BRIDGE = 8;
     public const int LOCATION_ID_SPIDER_FIELD = 9;
+    public const int LOCATION_ID_SHOP = 10;
 
     static World()
     {
@@ -95,6 +96,8 @@ public static class World
 
         Location townSquare = new Location(LOCATION_ID_TOWN_SQUARE, "Town square", "You see a fountain.", null, null);
 
+        Location shop = new Location(LOCATION_ID_SHOP, "Shop", "The shop, here you can spend your coins.", null, null);
+
         Location alchemistHut = new Location(LOCATION_ID_ALCHEMIST_HUT, "Alchemist's hut", "There are many strange plants on the shelves.", null, null);
         alchemistHut.QuestAvailableHere.Add(QuestByID(QUEST_ID_CLEAR_ALCHEMIST_GARDEN));
 
@@ -117,6 +120,7 @@ public static class World
 
         // Link the locations together
         home.LocationToNorth = townSquare;
+        home.LocationToWest = shop;
 
         townSquare.LocationToNorth = alchemistHut;
         townSquare.LocationToSouth = home;
@@ -140,6 +144,8 @@ public static class World
         bridge.LocationToEast = spiderField;
 
         spiderField.LocationToWest = bridge;
+
+        shop.LocationToEast = home;
 
         // Add the locations to the static list
         Locations.Add(home);

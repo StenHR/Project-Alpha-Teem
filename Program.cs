@@ -52,7 +52,17 @@
             {
             Console.WriteLine($"[D] Go East");
             }
-            Console.WriteLine($"[L] Quest Log");
+
+            if (player.CurrentLocation.ID == 10)
+            {
+                // shopping related code here Perhaps make a class;
+            }
+
+            if (player.CurrentLocation.QuestAvailableHere.Count != 0) 
+            {
+                Console.WriteLine($"[L] Quest Log");
+            }
+            
             
 
             string input = Console.ReadLine();
