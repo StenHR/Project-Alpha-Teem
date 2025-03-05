@@ -13,12 +13,12 @@
 
         do
         {
-            Print.Dialog("Welcome, player! What is thy name? ");
+            Print.Dialog("Welcome, player! What is thy name? ", style: Print.PrintStyle.TypeEffect);
             name = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                Print.Dialog("Please enter a name...");
+                Print.Dialog("Please enter a name...", color: ConsoleColor.Red);
             }
         }
         while (string.IsNullOrWhiteSpace(name));
@@ -27,9 +27,9 @@
         Player player = new(name, startLocation);
         player.CurrentWeapon = World.Weapons[0];
 
-        Print.Dialog($"Hello there {player.Name}!");
+        Print.Dialog($"Hello there {player.Name}!", style: Print.PrintStyle.TypeEffect);
         Print.Dialog("Here's thy deal... The people in town are being terrorized by giant spiders.\n" +
-            "You decide to do what you can to help. \n\r\nObjective: complete all quests");
+            "You decide to do what you can to help. \n\r\nObjective: complete all quests",style: Print.PrintStyle.TypeEffect);
 
         var x = true;
         while (x)
@@ -71,7 +71,8 @@
                     player.Move("south");
                     continue;
                 case "l":
-                    startLocation.ShowQuests(startLocation.QuestAvailableHere);
+                    player.CurrentLocation.ShowQuests();
+                    player.PickQuest();
                     continue;
                 default:
                     continue;

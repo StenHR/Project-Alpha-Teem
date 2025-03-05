@@ -65,7 +65,7 @@ public static class World
             new Quest(
                 QUEST_ID_CLEAR_ALCHEMIST_GARDEN,
                 "Clear the alchemist's garden",
-                "Kill rats in the alchemist's garden ");
+                "Kill rats in the alchemist's garden ", moneyReward: 25, experienceReward: 20);
 
 
 
@@ -73,14 +73,14 @@ public static class World
             new Quest(
                 QUEST_ID_CLEAR_FARMERS_FIELD,
                 "Clear the farmer's field",
-                "Kill snakes in the farmer's field");
+                "Kill snakes in the farmer's field", moneyReward: 15, experienceReward: 12);
 
 
         Quest clearSpidersForest =
                     new Quest(
                         QUEST_ID_COLLECT_SPIDER_SILK,
                         "Collect spider silk",
-                        "Kill spiders in the spider forest");
+                        "Kill spiders in the spider forest", moneyReward: 35, experienceReward: 30);
 
 
         Quests.Add(clearAlchemistGarden);

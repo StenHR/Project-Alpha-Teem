@@ -30,6 +30,7 @@ public class Location
             Print.Dialog($"Quest number   : {quest.ID}");
             Print.Dialog($"Name       : {quest.Name}");
             Print.Dialog($"Description: {quest.Description}");
+            Print.Dialog($"Reward(s): {quest.MoneyReward} coin(s), {quest.ExperienceReward} XP", color: ConsoleColor.Green);
             Print.Dialog(new string('=', 20));
         }
     }
@@ -39,18 +40,4 @@ public class Location
         return Description;
     }
     
-    public Quest PickQuest()
-    {
-        Print.Dialog("Please enter the number of the quest you would like to take:");
-        int questNumber;
-        Print.Dialog(">> ");
-    
-        while (!int.TryParse(Console.ReadLine(), out questNumber))
-        {
-            Print.Dialog("Invalid input. Please enter a valid quest number:");
-            Print.Dialog(">> ");
-        }
-    
-        return QuestAvailableHere.FirstOrDefault(q => q.ID == questNumber);
-    }
 }
