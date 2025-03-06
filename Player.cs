@@ -4,6 +4,7 @@ public class Player
     public int CurrentHitPoints;
     public Weapon CurrentWeapon;
     public Location CurrentLocation;
+    public List<Weapon> inventory = new() { World.Weapons[0] };
 
     public int Money;
     public int Experience;
@@ -24,6 +25,67 @@ public class Player
 
     // Returning simple player stats;
     public string GetPlayerStats() => $"| Name: {this.Name}; Health: {this.CurrentHitPoints}; Money: {this.Money}; EXP: {this.Experience} |";
+
+    public void AddInventoryItem(Weapon item)
+    {
+        this.inventory.Add(item);
+    }
+
+    public int? GetInventory()
+    {
+        Print.Dialog(new string('=', 20));
+        Console.WriteLine("Inventory");
+        foreach (Weapon weapon in this.inventory)
+        {
+            string dialog = $"[{weapon.ID}] {weapon.Name}: {weapon.MaximumDamage}";
+
+            if (weapon.ID == this.CurrentWeapon.ID)
+            {
+                dialog += " | [*]";
+            }
+
+            Console.WriteLine(dialog);
+        }
+        Print.Dialog(new string('=', 20));
+
+        Console.WriteLine("\nEnter a number to equip an item >");
+
+        string input = Console.ReadLine();
+
+        if (int.TryParse(input, out int item))
+        {
+            if (this.inventory.Any(w => w.ID == item))
+            {
+                return item;
+            }
+            else
+            {
+                Console.WriteLine("Invalid selection. Item not found.");
+                return null;
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a number.");
+            return null;
+        }
+    }
+
+    public string EquipInventoryItem(int itemId)
+    {
+        Weapon weapon = this.inventory.Find(w => w.ID == itemId);
+        this.CurrentWeapon = weapon;
+
+
+        if (this.CurrentWeapon == weapon)
+        {
+            return $"{weapon.Name} is equiped!";
+        }
+        else
+        {
+            return "There is no such weapon.";
+        }
+    }
 
     // Receiving rewards for finishing quests;
     public string ReceiveQuestRewards(int money = 0, int experience = 0)

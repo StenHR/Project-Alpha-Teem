@@ -52,6 +52,7 @@
             {
             Console.WriteLine("[D] Go East");
             }
+            Console.WriteLine("[I] Inventory");
             if (player.CurrentLocation == World.LocationByID(World.LOCATION_ID_TOWN_SQUARE))
             {
             Console.WriteLine("[E] Enter Store");
@@ -80,6 +81,10 @@
                 case "l":
                     player.CurrentLocation.ShowQuests();
                     player.PickQuest();
+                    continue;
+                case "i":
+                    int itemToBeEquipped = player.GetInventory() ?? -1;
+                    Print.Dialog(player.EquipInventoryItem(itemToBeEquipped), color: ConsoleColor.Green);
                     continue;
                 default:
                     continue;
