@@ -23,7 +23,13 @@ public class Location
     public void ShowQuests()
     {
         Print.Dialog("The following quests are available:\n");
-
+        
+        if (QuestAvailableHere.Count == 0)
+        {
+            Print.Dialog("There are no quests available here.");
+            return;
+        }
+        
         foreach (var quest in QuestAvailableHere)
         {
             Print.Dialog(new string('=', 20));

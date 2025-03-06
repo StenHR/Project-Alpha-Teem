@@ -26,10 +26,11 @@
         Location startLocation = World.LocationByID(World.LOCATION_ID_HOME);
         Player player = new(name, startLocation);
         player.CurrentWeapon = World.Weapons[0];
-
+        Console.Clear();
         Print.Dialog($"Hello there {player.Name}!");
         Print.Dialog("Here's thy deal... The people in town are being terrorized by giant spiders.\n" +
-            "You decide to do what you can to help. \n\r\nObjective: complete all quests");
+            "You decide to do what you can to help. \n\r\nObjective: complete all quests",
+            style: Print.PrintStyle.TypeEffect);
 
         var x = true;
         while (x)
@@ -44,25 +45,30 @@
             {
                 case "1":
                     player.Move("north");
+                    Console.Clear();
                     continue;
                 case "2":
                     player.Move("west");
+                    Console.Clear();
                     continue;
                 case "3":
                     player.Move("east");
+                    Console.Clear();
                     continue;
                 case "4":
                     player.Move("south");
+                    Console.Clear();
                     continue;
                 case "5":
                     Print.Dialog(startLocation.Description);
+                    Location currentLocation = player.CurrentLocation;
+                    currentLocation.ShowQuests();
+                    currentLocation.PickQuest();
+                    
                     continue;
                 default:
                     continue;
-
-
             }
         }
-
     }
 }
