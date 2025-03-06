@@ -15,7 +15,7 @@ public class Weapon
         this.Gold = gold
     }
 
-    public double CalculateDamage()
+    public int CalculateDamage()
     {
         Random rng = new Random();
 
@@ -23,8 +23,8 @@ public class Weapon
 
         if (rng.NextDouble() < critChance)
         {
-            return BaseDamage * rng.NextDouble() + 1;
+            return Convert.ToInt32(BaseDamage * (rng.NextDouble() + 1));
         }
-        return BaseDamage;
+        return Convert.ToInt32(BaseDamage);
     }
 }

@@ -40,6 +40,9 @@ public static class World
 
     public static void PopulateWeapons()
     {
+        Weapons.Add(new Weapon(WEAPON_ID_RUSTY_SWORD, "Rusty sword", 5, 0.2));
+        Weapons.Add(new Weapon(WEAPON_ID_CLUB, "Club", 10, 0.3));
+
         Weapons.Add(new Weapon(WEAPON_ID_RUSTY_SWORD, "Rusty sword", 5, 10));
         Weapons.Add(new Weapon(WEAPON_ID_CLUB, "Club", 10, 100));
         Weapons.Add(new Weapon(WEAPON_ID_SWORD_OF_SPIDER_SLAYING, "Magical Sword of Spider Slaying", 10, 120));
