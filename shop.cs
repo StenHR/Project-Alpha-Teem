@@ -88,7 +88,7 @@
         if (player.Money >= weapon.Gold)
         {
             player.Money -= weapon.Gold;
-            player.CurrentWeapon = weapon;
+            player.AddInventoryItem(weapon);
             Console.WriteLine($"You purchased {weapon.Name}.");
         }
         else
