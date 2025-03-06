@@ -6,13 +6,13 @@ public class Weapon
     public double critChance;
     public int Gold;
 
-    public Weapon(int id, string name, int maximumDamage, double cc, int gold;)
+    public Weapon(int id, string name, int maximumDamage, double cc, int gold)
     {
         ID = id;
         Name = name;
         MaximumDamage = maximumDamage;
         critChance = cc;
-        this.Gold = gold
+        this.Gold = gold;
     }
 
     public int CalculateDamage()
