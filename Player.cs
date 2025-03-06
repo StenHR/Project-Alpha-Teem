@@ -2,7 +2,7 @@ public class Player
 {
     public string Name;
     public int CurrentHitPoints;
-    public Weapon? CurrentWeapon;
+    public Weapon CurrentWeapon;
     public Location CurrentLocation;
     public List<Weapon> inventory = new() { World.Weapons[0] };
 
@@ -12,11 +12,11 @@ public class Player
     // Player class constructor; When creating the player object the fields name and location are required.
     // Default player health = 100. And the player starts with no money, experience or weapons
     // which can be given to the player later.
-    public Player(string name, Location location, int currentHitPoints = 100)
+    public Player(string name, Location location, Weapon weaponEquipped = null, int currentHitPoints = 100)
     {
         this.Name = name;
         this.CurrentHitPoints = currentHitPoints;
-        this.CurrentWeapon = null;
+        this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
         this.Money = 0;
         this.Experience = 0;

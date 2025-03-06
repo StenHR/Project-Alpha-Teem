@@ -38,22 +38,26 @@
 
             if (player.CurrentLocation.LocationToNorth != null)
             {
-            Console.WriteLine($"[W] Go North");
+            Console.WriteLine("[W] Go North");
             }
             if (player.CurrentLocation.LocationToWest != null)
             {
-            Console.WriteLine($"[A] Go West");
+            Console.WriteLine("[A] Go West");
             }
             if (player.CurrentLocation.LocationToSouth != null)
             {
-            Console.WriteLine($"[S] Go South");
+            Console.WriteLine("[S] Go South");
             }
             if (player.CurrentLocation.LocationToEast != null)
             {
-            Console.WriteLine($"[D] Go East");
+            Console.WriteLine("[D] Go East");
             }
-            Console.WriteLine($"[L] Quest Log");
             Console.WriteLine("[I] Inventory");
+            if (player.CurrentLocation == World.LocationByID(World.LOCATION_ID_TOWN_SQUARE))
+            {
+            Console.WriteLine("[E] Enter Store");
+            }
+            Console.WriteLine("[L] Quest Log");
             
 
             string input = Console.ReadLine();
@@ -70,6 +74,9 @@
                     continue;
                 case "s":
                     player.Move("south");
+                    continue;
+                case "e":
+                    Shop.VisitShop(player);
                     continue;
                 case "l":
                     player.CurrentLocation.ShowQuests();
