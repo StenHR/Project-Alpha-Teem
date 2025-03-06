@@ -11,11 +11,11 @@ public class Player
     // Player class constructor; When creating the player object the fields name and location are required.
     // Default player health = 100. And the player starts with no money, experience or weapons
     // which can be given to the player later.
-    public Player(string name, Location location, int currentHitPoints = 100)
+    public Player(string name, Location location, int currentHitPoints = 100, Weapon weaponEquipped = new Weapon(1, "Rusty Sword", 20, 0.20))
     {
         this.Name = name;
         this.CurrentHitPoints = currentHitPoints;
-        this.CurrentWeapon = null;
+        this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
         this.Money = 0;
         this.Experience = 0;
