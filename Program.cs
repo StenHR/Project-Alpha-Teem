@@ -83,7 +83,7 @@
                     player.PickQuest();
                     continue;
                 case "i":
-                    int itemToBeEquipped = player.GetInventory() ?? -1;
+                    int itemToBeEquipped = player.GetInventory() ?? 0;
                     Print.Dialog(player.EquipInventoryItem(itemToBeEquipped), color: ConsoleColor.Green);
                     continue;
                 default:

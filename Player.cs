@@ -18,7 +18,7 @@ public class Player
         this.CurrentHitPoints = currentHitPoints;
         this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
-        this.Money = 0;
+        this.Money = 200;
         this.Experience = 0;
 
     }
@@ -37,11 +37,14 @@ public class Player
         Console.WriteLine("Inventory");
         foreach (Weapon weapon in this.inventory)
         {
-            string dialog = $"[{weapon.ID}] {weapon.Name}: {weapon.MaximumDamage}";
-
+            string dialog = $"[{weapon.ID}] {weapon.Name}: {weapon.MaximumDamage} [ ]";
+            
             if (weapon.ID == this.CurrentWeapon.ID)
             {
-                dialog += " | [*]";
+                char[] chars = dialog.ToCharArray();
+                chars[20] = '*';
+                string modified = new string(chars);
+                Console.WriteLine(modified);
             }
 
             Console.WriteLine(dialog);
