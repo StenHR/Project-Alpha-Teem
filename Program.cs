@@ -13,12 +13,12 @@
 
         do
         {
-            Print.Dialog("Welcome, player! What is thy name? ");
+            Print.Dialog("Welcome, player! What is thy name? ", style: Print.PrintStyle.TypeEffect);
             name = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(name))
             {
-                Print.Dialog("Please enter a name...");
+                Print.Dialog("Please enter a name...", color: ConsoleColor.Red);
             }
         }
         while (string.IsNullOrWhiteSpace(name));
@@ -27,40 +27,62 @@
         Player player = new(name, startLocation);
         player.CurrentWeapon = World.Weapons[0];
 
-        Print.Dialog($"Hello there {player.Name}!");
+        Print.Dialog($"Hello there {player.Name}!", style: Print.PrintStyle.TypeEffect);
         Print.Dialog("Here's thy deal... The people in town are being terrorized by giant spiders.\n" +
-            "You decide to do what you can to help. \n\r\nObjective: complete all quests");
+            "You decide to do what you can to help. \n\r\nObjective: complete all quests",style: Print.PrintStyle.TypeEffect);
 
         var x = true;
         while (x)
         {
-            Print.Dialog("[1] Go North");
-            Print.Dialog("[2] Go West");
-            Print.Dialog("[3] Go East");
-            Print.Dialog("[4] Go South");
-            Print.Dialog("[5] Description");
+            Console.WriteLine();
+
+            if (player.CurrentLocation.LocationToNorth != null)
+            {
+            Console.WriteLine("[W] Go North");
+            }
+            if (player.CurrentLocation.LocationToWest != null)
+            {
+            Console.WriteLine("[A] Go West");
+            }
+            if (player.CurrentLocation.LocationToSouth != null)
+            {
+            Console.WriteLine("[S] Go South");
+            }
+            if (player.CurrentLocation.LocationToEast != null)
+            {
+            Console.WriteLine("[D] Go East");
+            }
+            if (player.CurrentLocation == World.LocationByID(World.LOCATION_ID_TOWN_SQUARE))
+            {
+            Console.WriteLine("[E] Enter Store");
+            }
+            Console.WriteLine("[L] Quest Log");
+            
+
             string input = Console.ReadLine();
             switch (input.ToLower())
             {
-                case "1":
+                case "w":
                     player.Move("north");
                     continue;
-                case "2":
+                case "a":
                     player.Move("west");
                     continue;
-                case "3":
+                case "d":
                     player.Move("east");
                     continue;
-                case "4":
+                case "s":
                     player.Move("south");
                     continue;
-                case "5":
-                    Print.Dialog(startLocation.Description);
+                case "e":
+                    Shop.VisitShop(player);
+                    continue;
+                case "l":
+                    player.CurrentLocation.ShowQuests();
+                    player.PickQuest();
                     continue;
                 default:
                     continue;
-
-
             }
         }
 

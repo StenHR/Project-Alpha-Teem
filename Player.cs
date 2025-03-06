@@ -68,4 +68,27 @@ public class Player
             Print.Dialog("You can't go that way.");
         }
    }
+
+    public Quest PickQuest()
+    {
+        Print.Dialog("\nPlease enter the number of the quest you would like to take:");
+        Print.Dialog("Press 0 to cancel.");
+        int questNumber;
+        Print.Dialog(">> ");
+
+        while (!int.TryParse(Console.ReadLine(), out questNumber))
+        {
+            if (questNumber == 0)
+            {
+                break;
+            }
+
+            Print.Dialog("Invalid input. Please enter a valid quest number:");
+            Print.Dialog(">> ");
+        }
+        
+
+        return CurrentLocation.QuestAvailableHere.FirstOrDefault(q => q.ID == questNumber);
+    }
+
 }
