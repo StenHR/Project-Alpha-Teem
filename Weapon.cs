@@ -1,18 +1,13 @@
-public class Weapon
+public class Weapon : Item
 {
-    public int ID;
-    public string Name;
     public int MaximumDamage;
     public double critChance;
-    public int Gold;
 
     public Weapon(int id, string name, int maximumDamage, double cc, int gold)
+        : base (id, name, gold)
     {
-        ID = id;
-        Name = name;
         MaximumDamage = maximumDamage;
         critChance = cc;
-        this.Gold = gold;
     }
 
     public int CalculateDamage()

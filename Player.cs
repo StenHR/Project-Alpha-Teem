@@ -4,9 +4,7 @@ public class Player
     public int CurrentHitPoints;
     public Weapon CurrentWeapon;
     public Location CurrentLocation;
-    public List<Weapon> inventory = new() { World.Weapons[0] };
-    public Quest? CurrentQuest;
-
+    public List<Item> inventory = new() { World.Weapons[0] };
     public int Money;
     public int Experience;
 
@@ -19,15 +17,15 @@ public class Player
         this.CurrentHitPoints = currentHitPoints;
         this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
+        this.Money = 0;
         this.CurrentQuest = null;
-        this.Money = 200;
         this.Experience = 0;
     }
 
     // Returning simple player stats;
     public string GetPlayerStats() => $"| Name: {this.Name}; Health: {this.CurrentHitPoints}; Money: {this.Money}; EXP: {this.Experience} |";
 
-    public void AddInventoryItem(Weapon item)
+    public void AddInventoryItem(Item item)
     {
         this.inventory.Add(item);
     }
@@ -36,14 +34,14 @@ public class Player
     {
         Print.Dialog(new string('=', 20));
         Console.WriteLine("Inventory");
-        foreach (Weapon weapon in this.inventory)
+        foreach (Item inventoryItem in this.inventory)
         {
-            string dialog = $"[{weapon.ID}] {weapon.Name}: {weapon.MaximumDamage} [ ]";
+            string dialog = $"[{inventoryItem.ID}] {inventoryItem.Name} | dmg: {(inventoryItem is Weapon weapon ? $"{weapon.MaximumDamage}" : "")} [ ]";
             
-            if (weapon.ID == this.CurrentWeapon.ID)
+            if (inventoryItem.ID == this.CurrentWeapon.ID)
             {
                 char[] chars = dialog.ToCharArray();
-                chars[20] = '*';
+                chars[25] = '*';
                 string modified = new string(chars);
                 Console.WriteLine(modified);
             }
@@ -58,7 +56,7 @@ public class Player
 
         if (int.TryParse(input, out int item))
         {
-            if (this.inventory.Any(w => w.ID == item))
+            if (this.inventory.Any(i => i.ID == item))
             {
                 return item;
             }
@@ -77,13 +75,12 @@ public class Player
 
     public string EquipInventoryItem(int itemId)
     {
-        Weapon weapon = this.inventory.Find(w => w.ID == itemId);
-        this.CurrentWeapon = weapon;
+        Item item = this.inventory.Find(i => i.ID == itemId);
 
-
-        if (this.CurrentWeapon == weapon)
+        if (item is Weapon weapon)
         {
-            return $"{weapon.Name} is equiped!";
+            this.CurrentWeapon = weapon;
+            return $"{weapon.Name} is equipped!";
         }
         else
         {
