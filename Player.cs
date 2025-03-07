@@ -5,6 +5,7 @@ public class Player
     public Weapon CurrentWeapon;
     public Location CurrentLocation;
     public List<Weapon> inventory = new() { World.Weapons[0] };
+    public Quest? CurrentQuest;
 
     public int Money;
     public int Experience;
@@ -18,9 +19,9 @@ public class Player
         this.CurrentHitPoints = currentHitPoints;
         this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
+        this.CurrentQuest = null;
         this.Money = 200;
         this.Experience = 0;
-
     }
 
     // Returning simple player stats;
@@ -133,27 +134,9 @@ public class Player
             Print.Dialog("You can't go that way.");
         }
    }
-
-    public Quest PickQuest()
-    {
-        Print.Dialog("\nPlease enter the number of the quest you would like to take:");
-        Print.Dialog("Press 0 to cancel.");
-        int questNumber;
-        Print.Dialog(">> ");
-
-        while (!int.TryParse(Console.ReadLine(), out questNumber))
-        {
-            if (questNumber == 0)
-            {
-                break;
-            }
-
-            Print.Dialog("Invalid input. Please enter a valid quest number:");
-            Print.Dialog(">> ");
-        }
-        
-
-        return CurrentLocation.QuestAvailableHere.FirstOrDefault(q => q.ID == questNumber);
-    }
-
+   
+   public Quest GetCurrentQuest()
+   {
+       return CurrentQuest;
+   }
 }
