@@ -50,7 +50,7 @@ public class Location
                 ConsoleColor.White, 
                 Print.PrintStyle.TypeEffect, 
                 typeSpeed: 30);
-                
+            Print.Dialog($"Reward(s): {quest.MoneyReward} coin(s), {quest.ExperienceReward} XP", color: ConsoleColor.Green);
             Print.Dialog(new string('-', 40), 
                 ConsoleColor.DarkGray);
         }

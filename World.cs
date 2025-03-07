@@ -11,6 +11,7 @@ public static class World
 
     public const int WEAPON_ID_RUSTY_SWORD = 1;
     public const int WEAPON_ID_CLUB = 2;
+    public const int WEAPON_ID_SWORD_OF_SPIDER_SLAYING = 3;
 
     public const int MONSTER_ID_RAT = 1;
     public const int MONSTER_ID_SNAKE = 2;
@@ -41,8 +42,10 @@ public static class World
 
     public static void PopulateWeapons()
     {
-        Weapons.Add(new Weapon(WEAPON_ID_RUSTY_SWORD, "Rusty sword", 5));
-        Weapons.Add(new Weapon(WEAPON_ID_CLUB, "Club", 10));
+
+        Weapons.Add(new Weapon(WEAPON_ID_RUSTY_SWORD, "Rusty sword", 5, 0.2, 10));
+        Weapons.Add(new Weapon(WEAPON_ID_CLUB, "Club", 10, 0.3, 100));
+        Weapons.Add(new Weapon(WEAPON_ID_SWORD_OF_SPIDER_SLAYING, "Magical Sword of Spider Slaying", 10, 0, 120));
     }
 
     public static void PopulateMonsters()
@@ -123,6 +126,8 @@ public static class World
         Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering covering the trees in this forest.", null, null);
         spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
 
+        //Location store = new Location(LOCATION_ID_STORE, "Store", "A place to buy.", null, null);
+
         // Link the locations together
         home.LocationToNorth = townSquare;
 
@@ -130,6 +135,7 @@ public static class World
         townSquare.LocationToSouth = home;
         townSquare.LocationToEast = guardPost;
         townSquare.LocationToWest = farmhouse;
+        //townSquare.LocationToNorthEast = store;
 
         farmhouse.LocationToEast = townSquare;
         farmhouse.LocationToWest = farmersField;
@@ -159,6 +165,7 @@ public static class World
         Locations.Add(farmersField);
         Locations.Add(bridge);
         Locations.Add(spiderField);
+        //Locations.Add(store);
     }
 
     public static Location LocationByID(int id)
