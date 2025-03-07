@@ -2,25 +2,26 @@ public class Player
 {
     public string Name;
     public int CurrentHitPoints;
-    public Weapon CurrentWeapon;
+    public Weapon CurrentWeapon = World.Weapons[0];
     public Location CurrentLocation;
     public Quest CurrentQuest;
-    public List<Item> inventory = new() { World.Weapons[0] };
+    public List<Item> inventory = new();
     public int Money;
     public int Experience;
 
     // Player class constructor; When creating the player object the fields name and location are required.
     // Default player health = 100. And the player starts with no money, experience or weapons
     // which can be given to the player later.
-    public Player(string name, Location location, Weapon weaponEquipped = null, int currentHitPoints = 100)
+    public Player(string name, Location location, int currentHitPoints = 100)
     {
         this.Name = name;
         this.CurrentHitPoints = currentHitPoints;
-        this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
         this.Money = 0;
         this.CurrentQuest = null;
         this.Experience = 0;
+        Item rustySword = World.Weapons[0];
+        this.AddInventoryItem(rustySword);
     }
 
     // Returning simple player stats;
@@ -42,7 +43,7 @@ public class Player
             if (inventoryItem.ID == this.CurrentWeapon.ID)
             {
                 char[] chars = dialog.ToCharArray();
-                chars[25] = '*';
+                chars[26] = '*';
                 string modified = new string(chars);
                 Console.WriteLine(modified);
             }

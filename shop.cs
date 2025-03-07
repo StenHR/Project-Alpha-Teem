@@ -28,7 +28,7 @@
                     DisplayItems(player);
                     continue;
                 case "2":
-                    // SellItem(player); // Implement this method if needed
+                    SellItem(player);
                     continue;
                 case "3":
                     Console.WriteLine("The shopkeeper greets you warmly.");
@@ -97,8 +97,46 @@
         }
     }
 
-    // public static void SellItem(Player player)
-    // {
-    //     // Implementation for selling items
-    // }
+    public static void SellItem(Player player)
+    {
+        bool sell = true;
+
+        while (sell)
+        {
+            Print.Dialog("What item would you like to sell?", style: Print.PrintStyle.TypeEffect);
+            player.GetInventory();
+            Console.WriteLine("[0] Cancel");
+            Console.Write("Enter number: ");
+
+            if (!int.TryParse(Console.ReadLine(), out int itemSell))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid number.");
+                continue;
+            }
+
+            if (itemSell == 0)
+            {
+                break;
+            }
+
+            Item item = player.inventory.Find(i => i.ID == itemSell);
+
+            if (item == null)
+            {
+                Console.WriteLine("Item not found. Please try again.");
+                continue;
+            }
+
+            player.Money += item.Gold + 10;
+            player.inventory.Remove(item);
+            Console.WriteLine($"You sold {item.Name} for {item.Gold + 10} gold!");
+
+            Console.Write("Do you want to sell another item? (y/n): ");
+            string response = Console.ReadLine().Trim().ToLower();
+            if (response != "y")
+            {
+                sell = false;
+            }
+        }
+    }
 }
