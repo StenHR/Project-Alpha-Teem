@@ -4,6 +4,7 @@ public class Player
     public int CurrentHitPoints;
     public Weapon? CurrentWeapon;
     public Location CurrentLocation;
+    public Quest ActiveQuest;
 
     public int Money;
     public int Experience;
@@ -19,7 +20,6 @@ public class Player
         this.CurrentLocation = location;
         this.Money = 0;
         this.Experience = 0;
-
     }
 
     // Returning simple player stats;
@@ -67,5 +67,10 @@ public class Player
         {
             Print.Dialog("You can't go that way.");
         }
+   }
+   
+   public Quest GetActiveQuest()
+   {
+       return ActiveQuest;
    }
 }

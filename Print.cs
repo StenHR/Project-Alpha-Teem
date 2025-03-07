@@ -31,26 +31,29 @@ public static class Print
     /// <param name="style">Printing style (instant or type effect)</param>
     /// <param name="colorMode">Color application mode</param>
     /// <param name="typeSpeed">Speed of typing effect</param>
+    /// <param name="addNewLine">Add new line after printing</param>
     public static void Dialog(
         string dialog, 
         ConsoleColor color = ConsoleColor.White, 
         PrintStyle style = PrintStyle.Instant,
         ColorMode colorMode = ColorMode.Single,
-        int typeSpeed = DefaultTypeSpeed)
+        int typeSpeed = DefaultTypeSpeed,
+        bool addNewLine = true
+    )
     {
         ConsoleColor[] colors = GetColorArray(dialog, color, colorMode);
 
         if (style == PrintStyle.Instant)
         {
-            PrintInstant(dialog, colors);
+            PrintInstant(dialog, colors, addNewLine);
         }
         else
         {
-            PrintTypeEffect(dialog, colors, typeSpeed);
+            PrintTypeEffect(dialog, colors, typeSpeed, addNewLine);
         }
     }
 
-    private static void PrintInstant(string dialog, ConsoleColor[] colors)
+    private static void PrintInstant(string dialog, ConsoleColor[] colors, bool addNewLine)
     {
         for (int i = 0; i < dialog.Length; i++)
         {
@@ -58,10 +61,13 @@ public static class Print
             Console.Write(dialog[i]);
         }
         Console.ResetColor();
-        Console.WriteLine();
+        if (addNewLine)
+        {
+            Console.WriteLine();
+        }
     }
 
-    private static void PrintTypeEffect(string dialog, ConsoleColor[] colors, int typeSpeed)
+    private static void PrintTypeEffect(string dialog, ConsoleColor[] colors, int typeSpeed, bool addNewLine)
     {
         for (int i = 0; i < dialog.Length; i++)
         {
@@ -70,7 +76,10 @@ public static class Print
             Thread.Sleep(typeSpeed);
         }
         Console.ResetColor();
-        Console.WriteLine();
+        if (addNewLine)
+        {
+            Console.WriteLine();
+        }
     }
 
     private static ConsoleColor[] GetColorArray(string dialog, ConsoleColor baseColor, ColorMode colorMode)
