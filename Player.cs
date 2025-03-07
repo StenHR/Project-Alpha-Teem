@@ -4,6 +4,7 @@ public class Player
     public int CurrentHitPoints;
     public Weapon CurrentWeapon;
     public Location CurrentLocation;
+    public Quest CurrentQuest;
     public List<Item> inventory = new() { World.Weapons[0] };
     public int Money;
     public int Experience;
