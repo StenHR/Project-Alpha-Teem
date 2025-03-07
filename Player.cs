@@ -5,7 +5,7 @@ public class Player
     public Weapon CurrentWeapon;
     public Location CurrentLocation;
     public List<Weapon> inventory = new() { World.Weapons[0] };
-    public Quest ActiveQuest;
+    public Quest? CurrentQuest;
 
     public int Money;
     public int Experience;
@@ -19,6 +19,7 @@ public class Player
         this.CurrentHitPoints = currentHitPoints;
         this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
+        this.CurrentQuest = null;
         this.Money = 200;
         this.Experience = 0;
     }
@@ -134,8 +135,8 @@ public class Player
         }
    }
    
-   public Quest GetActiveQuest()
+   public Quest GetCurrentQuest()
    {
-       return ActiveQuest;
+       return CurrentQuest;
    }
 }

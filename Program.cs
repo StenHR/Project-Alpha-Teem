@@ -138,25 +138,33 @@
             ConsoleColor.Yellow);
             
         if (player.CurrentLocation.LocationToNorth != null)
-            Print.Dialog("[1] Go North", 
+            Print.Dialog("[W] Go North", 
                 ConsoleColor.Cyan);
                 
         if (player.CurrentLocation.LocationToWest != null)
-            Print.Dialog("[2] Go West", 
-                ConsoleColor.Cyan);
-                
-        if (player.CurrentLocation.LocationToEast != null)
-            Print.Dialog("[3] Go East", 
+            Print.Dialog("[A] Go West", 
                 ConsoleColor.Cyan);
                 
         if (player.CurrentLocation.LocationToSouth != null)
-            Print.Dialog("[4] Go South", 
+            Print.Dialog("[S] Go South", 
                 ConsoleColor.Cyan);
                 
-        Print.Dialog("[5] Show and pick quests", 
+        if (player.CurrentLocation.LocationToEast != null)
+            Print.Dialog("[D] Go East", 
+                ConsoleColor.Cyan);
+        
+        Print.Dialog("[I] Inventory", 
             ConsoleColor.Green);
-            
-        Print.Dialog("[6] Show inventory", 
+        
+        if (player.CurrentLocation == World.LocationByID(World.LOCATION_ID_TOWN_SQUARE))
+        {
+            Print.Dialog("[E] Enter Store", 
+                ConsoleColor.Yellow, 
+                Print.PrintStyle.TypeEffect, 
+                Print.ColorMode.Blinking);
+        }
+        
+        Print.Dialog("[L] Quest Log", 
             ConsoleColor.Green);
     }
 
@@ -164,7 +172,7 @@
     {
         switch (input.ToLower())
         {
-            case "1":
+            case "w":
                 if (player.CurrentLocation.LocationToNorth != null)
                 {
                     player.Move("north");
@@ -180,7 +188,7 @@
                 }
                 break;
                 
-            case "2":
+            case "a":
                 if (player.CurrentLocation.LocationToWest != null)
                 {
                     player.Move("west");
@@ -196,7 +204,7 @@
                 }
                 break;
                 
-            case "3":
+            case "d":
                 if (player.CurrentLocation.LocationToEast != null)
                 {
                     player.Move("east");
@@ -212,7 +220,7 @@
                 }
                 break;
                 
-            case "4":
+            case "s":
                 if (player.CurrentLocation.LocationToSouth != null)
                 {
                     player.Move("south");
@@ -228,39 +236,47 @@
                 }
                 break;
                 
-            case "5":
+            case "l":
                 Console.Clear();
-                Location currentLocation = player.CurrentLocation;
-                currentLocation.ShowQuests();
-                
-                if (currentLocation.QuestAvailableHere?.Any() != true)
-                {
-                    Print.Dialog("Press any key to continue...", 
-                        ConsoleColor.DarkGray);
-                    Console.ReadKey();
-                    break;
-                }
-                
-                Quest pickedQuest = currentLocation.PickQuest();
-                if (pickedQuest != null)
-                {
-                    pickedQuest.QuestLine.RunQuest();
-                }
-                Thread.Sleep(1000);
+                player.CurrentLocation.ShowQuests();
+                player.CurrentQuest = player.CurrentLocation.PickQuest();
+                if(player.CurrentQuest != null)
+                    player.CurrentQuest.QuestLine.RunQuest();
                 break;
                 
-            case "6":
+            case "i":
                 Console.Clear();
                 Print.Dialog("INVENTORY", 
                     ConsoleColor.Yellow, 
                     Print.PrintStyle.TypeEffect, 
                     Print.ColorMode.Gradient);
                 
-                // TODO: inventory logica hieerrr...
+                int itemToBeEquipped = player.GetInventory() ?? 0;
+                if (itemToBeEquipped > 0)
+                {
+                    Print.Dialog(player.EquipInventoryItem(itemToBeEquipped), 
+                        ConsoleColor.Green, 
+                        Print.PrintStyle.TypeEffect);
+                }
                 
                 Print.Dialog("Press any key to continue...", 
                     ConsoleColor.DarkGray);
                 Console.ReadKey();
+                break;
+            
+            case "e":
+                if (player.CurrentLocation == World.LocationByID(World.LOCATION_ID_TOWN_SQUARE))
+                {
+                    Shop.VisitShop(player);
+                }
+                else
+                {
+                    Console.Clear();
+                    Print.Dialog("There is no shop here!", 
+                        ConsoleColor.Red, 
+                        Print.PrintStyle.TypeEffect);
+                    Thread.Sleep(1000);
+                }
                 break;
                 
             default:

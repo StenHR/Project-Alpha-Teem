@@ -1,4 +1,6 @@
-﻿public class Quest
+﻿using Project_Alpha_Teem;
+
+public class Quest
 {
     public int ID { get; set; }
     public string Name { get; set; }

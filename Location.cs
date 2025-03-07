@@ -55,11 +55,6 @@ public class Location
                 ConsoleColor.DarkGray);
         }
     }
-
-    public string ShowDescription()
-    {
-        return Description;
-    }
     
     public Quest PickQuest()
     {
@@ -94,13 +89,19 @@ public class Location
             Thread.Sleep(1500);
             return null;
         }
-        
+        Console.Clear();
         Print.Dialog($"You have chosen to undertake: {selectedQuest.Name}", 
             ConsoleColor.Green, 
             Print.PrintStyle.TypeEffect, 
             Print.ColorMode.Rainbow);
             
         Thread.Sleep(1500);
+        Console.Clear();
         return selectedQuest;
+    }
+
+    public string ShowDescription()
+    {
+        return Description;
     }
 }
