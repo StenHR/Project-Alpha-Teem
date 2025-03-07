@@ -1,3 +1,5 @@
+using Project_Alpha_Teem.locations.AlchemistsGarden;
+
 public static class World
 {
 
@@ -68,7 +70,9 @@ public static class World
             new Quest(
                 QUEST_ID_CLEAR_ALCHEMIST_GARDEN,
                 "Clear the alchemist's garden",
-                "Kill rats in the alchemist's garden ");
+                "Kill rats in the alchemist's garden ",
+                new ClearAlchemistGardenQuest()
+                );
 
 
 
@@ -76,14 +80,18 @@ public static class World
             new Quest(
                 QUEST_ID_CLEAR_FARMERS_FIELD,
                 "Clear the farmer's field",
-                "Kill snakes in the farmer's field");
+                "Kill snakes in the farmer's field",
+                new ClearFarmersFieldQuest()
+                );
 
 
         Quest clearSpidersForest =
-                    new Quest(
-                        QUEST_ID_COLLECT_SPIDER_SILK,
-                        "Collect spider silk",
-                        "Kill spiders in the spider forest");
+            new Quest(
+                QUEST_ID_COLLECT_SPIDER_SILK,
+                "Collect spider silk",
+                "Kill spiders in the spider forest",
+                new CollectSpiderSilkQuest()
+                );
 
 
         Quests.Add(clearAlchemistGarden);
