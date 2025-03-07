@@ -11,13 +11,13 @@
         Print.Dialog("SPIDER HUNTER", 
             ConsoleColor.Red, 
             Print.PrintStyle.TypeEffect, 
-            Print.ColorMode.Blinking, 
+            Print.ColorMode.Single, 
             typeSpeed: 150);
             
         Print.Dialog("A Text Adventure", 
             ConsoleColor.Yellow, 
             Print.PrintStyle.TypeEffect, 
-            Print.ColorMode.Gradient, 
+            Print.ColorMode.Single, 
             typeSpeed: 80);
             
         Print.Dialog(new string('=', 50), 
@@ -30,7 +30,7 @@
                 ConsoleColor.Cyan, 
                 Print.PrintStyle.TypeEffect, 
                 typeSpeed: 40, 
-                addNewLine: false);
+                addNewLine: true);
                 
             name = Console.ReadLine();
 
@@ -40,7 +40,7 @@
                 Print.Dialog("Please enter a name...", 
                     ConsoleColor.Red, 
                     Print.PrintStyle.TypeEffect, 
-                    Print.ColorMode.Blinking);
+                    Print.ColorMode.Single);
             }
         }
         while (string.IsNullOrWhiteSpace(name));
@@ -53,7 +53,7 @@
         Print.Dialog($"Welcome to the adventure, {player.Name}!", 
             ConsoleColor.Green, 
             Print.PrintStyle.TypeEffect, 
-            Print.ColorMode.Rainbow, 
+            Print.ColorMode.Single, 
             typeSpeed: 40);
             
         Thread.Sleep(1000);
@@ -71,12 +71,13 @@
         Print.Dialog("You have decided to do what you can to help.", 
             ConsoleColor.White, 
             Print.PrintStyle.TypeEffect, 
-            typeSpeed: 30);
+            typeSpeed: 30,
+            addNewLine: true);
             
         Print.Dialog("OBJECTIVE: Complete all quests to save the town", 
             ConsoleColor.Green, 
             Print.PrintStyle.TypeEffect, 
-            Print.ColorMode.Blinking, 
+            Print.ColorMode.Single, 
             typeSpeed: 40);
             
         Thread.Sleep(2000);
@@ -99,7 +100,7 @@
                 ConsoleColor.Cyan, 
                 Print.PrintStyle.TypeEffect, 
                 typeSpeed: 20, 
-                addNewLine: false);
+                addNewLine: true);
                 
             string input = Console.ReadLine();
             
@@ -121,9 +122,8 @@
             addNewLine: false);
             
         Print.Dialog(player.CurrentLocation.Name, 
-            ConsoleColor.Green, 
-            Print.PrintStyle.TypeEffect, 
-            Print.ColorMode.Blinking, 
+            ConsoleColor.Magenta, 
+            Print.PrintStyle.TypeEffect,  
             typeSpeed: 40);
             
         Print.Dialog(player.CurrentLocation.Description, 
@@ -161,7 +161,7 @@
             Print.Dialog("[E] Enter Store", 
                 ConsoleColor.Yellow, 
                 Print.PrintStyle.TypeEffect, 
-                Print.ColorMode.Blinking);
+                Print.ColorMode.Single);
         }
         
         Print.Dialog("[L] Quest Log", 
@@ -183,7 +183,7 @@
                     Print.Dialog("You cannot go that way!", 
                         ConsoleColor.Red, 
                         Print.PrintStyle.TypeEffect, 
-                        Print.ColorMode.Blinking);
+                        Print.ColorMode.Single);
                     Thread.Sleep(1000);
                 }
                 break;
@@ -199,7 +199,7 @@
                     Print.Dialog("You cannot go that way!", 
                         ConsoleColor.Red, 
                         Print.PrintStyle.TypeEffect, 
-                        Print.ColorMode.Blinking);
+                        Print.ColorMode.Single);
                     Thread.Sleep(1000);
                 }
                 break;
@@ -215,7 +215,7 @@
                     Print.Dialog("You cannot go that way!", 
                         ConsoleColor.Red, 
                         Print.PrintStyle.TypeEffect, 
-                        Print.ColorMode.Blinking);
+                        Print.ColorMode.Single);
                     Thread.Sleep(1000);
                 }
                 break;
@@ -231,7 +231,7 @@
                     Print.Dialog("You cannot go that way!", 
                         ConsoleColor.Red, 
                         Print.PrintStyle.TypeEffect, 
-                        Print.ColorMode.Blinking);
+                        Print.ColorMode.Single);
                     Thread.Sleep(1000);
                 }
                 break;

@@ -26,7 +26,7 @@ public class Location
         Print.Dialog($"QUESTS IN {Name.ToUpper()}", 
             ConsoleColor.Yellow, 
             Print.PrintStyle.TypeEffect, 
-            Print.ColorMode.Gradient);
+            Print.ColorMode.Single);
             
         Print.Dialog(new string('=', 50), 
             ConsoleColor.DarkGray);
@@ -44,7 +44,7 @@ public class Location
             Print.Dialog($"QUEST #{quest.ID}: {quest.Name}", 
                 ConsoleColor.Green, 
                 Print.PrintStyle.TypeEffect, 
-                Print.ColorMode.Blinking);
+                Print.ColorMode.Single);
                 
             Print.Dialog(quest.Description, 
                 ConsoleColor.White, 
