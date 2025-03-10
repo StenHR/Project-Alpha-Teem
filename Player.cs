@@ -5,7 +5,7 @@ public class Player
     public Weapon CurrentWeapon;
     public Location CurrentLocation;
     public Quest CurrentQuest;
-    public List<Item> inventory = new() { World.Weapons[0] };
+    public List<Item> Inventory = new() { World.Weapons[0] };
     public int Money;
     public int Experience;
 
@@ -18,7 +18,7 @@ public class Player
         this.CurrentHitPoints = currentHitPoints;
         this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
-        this.Money = 0;
+        this.Money = 300;
         this.CurrentQuest = null;
         this.Experience = 0;
     }
@@ -28,65 +28,64 @@ public class Player
 
     public void AddInventoryItem(Item item)
     {
-        this.inventory.Add(item);
+        this.Inventory.Add(item);
     }
 
-    public int? GetInventory()
+    public void GetInventory()
     {
         Print.Dialog(new string('=', 20));
-        Console.WriteLine("Inventory");
-        foreach (Item inventoryItem in this.inventory)
+        for (int i = 0; i < this.Inventory.Count; i++)
         {
-            string dialog = $"[{inventoryItem.ID}] {inventoryItem.Name} | dmg: {(inventoryItem is Weapon weapon ? $"{weapon.MaximumDamage}" : "")} [ ]";
-            
-            if (inventoryItem.ID == this.CurrentWeapon.ID)
+            string dialog = $"[{i}] {this.Inventory[i].Name} | dmg: {(this.Inventory[i] is Weapon weapon ? $"{weapon.MaximumDamage}" : "")}";
+
+            if (this.Inventory[i] is Weapon weaponItem)
             {
-                char[] chars = dialog.ToCharArray();
-                chars[25] = '*';
-                string modified = new string(chars);
-                Console.WriteLine(modified);
+                if (weaponItem.IsEquipped)
+                {
+                    dialog += " [*]";
+                }
             }
 
             Console.WriteLine(dialog);
         }
+        Print.Dialog("[*] -> currently equipped.", ConsoleColor.DarkGray);
         Print.Dialog(new string('=', 20));
 
-        Console.WriteLine("\nEnter a number to equip an item >");
+    }
 
-        string input = Console.ReadLine();
+    public void EquipInventoryItem()
+    {
 
-        if (int.TryParse(input, out int item))
+        if (this.Inventory.Count == 0)
         {
-            if (this.inventory.Any(i => i.ID == item))
+            Print.Dialog("Your Inventory is empty.", ConsoleColor.Red);
+            Thread.Sleep(1000);
+            return;
+        }
+
+        Print.Dialog("Select the item to equip:", ConsoleColor.Cyan);
+
+        if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 0 && choice < this.Inventory.Count)
+        {
+            if (this.Inventory[choice] is Weapon selectedWeapon)
             {
-                return item;
+                this.CurrentWeapon.IsEquipped = false;
+                this.CurrentWeapon = selectedWeapon;
+                this.CurrentWeapon.IsEquipped = true;
+                Print.Dialog($"You have equipped {selectedWeapon.Name}.", ConsoleColor.Green);
             }
             else
             {
-                Console.WriteLine("Invalid selection. Item not found.");
-                return null;
+                Print.Dialog("You can only equip weapons.", ConsoleColor.Red);
+                Thread.Sleep(1000);
             }
         }
         else
         {
-            Console.WriteLine("Invalid input. Please enter a number.");
-            return null;
+            Print.Dialog("Invalid choice.", ConsoleColor.Red);
+            Thread.Sleep(1000);
         }
-    }
-
-    public string EquipInventoryItem(int itemId)
-    {
-        Item item = this.inventory.Find(i => i.ID == itemId);
-
-        if (item is Weapon weapon)
-        {
-            this.CurrentWeapon = weapon;
-            return $"{weapon.Name} is equipped!";
-        }
-        else
-        {
-            return "There is no such weapon.";
-        }
+        
     }
 
     // Receiving rewards for finishing quests;

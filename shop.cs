@@ -47,6 +47,13 @@
     {
         Console.WriteLine();
         Console.WriteLine("Items available for purchase:");
+
+        if (WeaponsForSale.Count == 0)
+        {
+            Print.Dialog("Sold out!\n", color: ConsoleColor.Red);
+            return;
+        }
+
         for (int i = 0; i < WeaponsForSale.Count; i++)
         {
             Weapon weapon = WeaponsForSale[i];
@@ -87,6 +94,7 @@
         Weapon weapon = WeaponsForSale[itemIndex];
         if (player.Money >= weapon.Gold)
         {
+            WeaponsForSale.Remove(weapon);
             player.Money -= weapon.Gold;
             player.AddInventoryItem(weapon);
             Console.WriteLine($"You purchased {weapon.Name}.");
