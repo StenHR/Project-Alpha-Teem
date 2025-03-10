@@ -112,23 +112,38 @@
     {
         Print.Dialog($"PLAYER: {player.Name}", 
             ConsoleColor.Yellow, 
-            Print.PrintStyle.TypeEffect, 
+            Print.PrintStyle.Instant, 
             typeSpeed: 20);
-            
+
+        Print.Dialog($"Health: {player.CurrentHitPoints}",
+            ConsoleColor.Red,
+            Print.PrintStyle.Instant,
+            typeSpeed: 20);
+
+        Print.Dialog($"Money: {player.Money}",
+            ConsoleColor.Yellow,
+            Print.PrintStyle.Instant,
+            typeSpeed: 20);
+
+        Print.Dialog($"Experience: {player.Experience}",
+            ConsoleColor.Blue,
+            Print.PrintStyle.Instant,
+            typeSpeed: 20);
+
         Print.Dialog("LOCATION: ", 
             ConsoleColor.Magenta, 
-            Print.PrintStyle.TypeEffect, 
+            Print.PrintStyle.Instant, 
             typeSpeed: 20, 
             addNewLine: false);
             
         Print.Dialog(player.CurrentLocation.Name, 
             ConsoleColor.Magenta, 
-            Print.PrintStyle.TypeEffect,  
+            Print.PrintStyle.Instant,  
             typeSpeed: 40);
             
         Print.Dialog(player.CurrentLocation.Description, 
             ConsoleColor.White, 
-            Print.PrintStyle.TypeEffect, 
+            Print.PrintStyle.Instant, 
             typeSpeed: 30);
     }
 
@@ -249,15 +264,24 @@
                 Print.Dialog("INVENTORY", 
                     ConsoleColor.Yellow, 
                     Print.PrintStyle.TypeEffect, 
-                    Print.ColorMode.Gradient);
+                    Print.ColorMode.Single);
                 
-                int itemToBeEquipped = player.GetInventory() ?? 0;
-                if (itemToBeEquipped > 0)
+                player.GetInventory();
+
+                string answer;
+                do
                 {
-                    Print.Dialog(player.EquipInventoryItem(itemToBeEquipped), 
-                        ConsoleColor.Green, 
-                        Print.PrintStyle.TypeEffect);
+                    Print.Dialog("Do you also want to equip an item? [y/n]", color: ConsoleColor.Green);
+                    answer = Console.ReadLine().ToLower();
                 }
+                while (string.IsNullOrWhiteSpace(answer));
+
+                if(answer == "n")
+                {
+                    break;
+                }
+
+                player.EquipInventoryItem();
                 
                 Print.Dialog("Press any key to continue...", 
                     ConsoleColor.DarkGray);
