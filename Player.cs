@@ -42,12 +42,13 @@ public class Player
             {
                 if (weaponItem.IsEquipped)
                 {
-                    dialog += " [*]";  // Add the indicator for equipped weapon
+                    dialog += " [*]";
                 }
             }
 
             Console.WriteLine(dialog);
         }
+        Print.Dialog("[*] -> currently equipped.", ConsoleColor.DarkGray);
         Print.Dialog(new string('=', 20));
 
     }
@@ -68,6 +69,7 @@ public class Player
         {
             if (this.Inventory[choice] is Weapon selectedWeapon)
             {
+                this.CurrentWeapon.IsEquipped = false;
                 this.CurrentWeapon = selectedWeapon;
                 this.CurrentWeapon.IsEquipped = true;
                 Print.Dialog($"You have equipped {selectedWeapon.Name}.", ConsoleColor.Green);
