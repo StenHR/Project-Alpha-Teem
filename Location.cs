@@ -93,7 +93,7 @@ public class Location
         Print.Dialog($"You have chosen to undertake: {selectedQuest.Name}", 
             ConsoleColor.Green, 
             Print.PrintStyle.TypeEffect, 
-            Print.ColorMode.Rainbow);
+            Print.ColorMode.Single);
             
         Thread.Sleep(1500);
         Console.Clear();
