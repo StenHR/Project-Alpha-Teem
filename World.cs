@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Project_Alpha_Teem.locations.AlchemistsGarden;
 
 public static class World
@@ -31,12 +32,19 @@ public static class World
     public const int LOCATION_ID_BRIDGE = 8;
     public const int LOCATION_ID_SPIDER_FIELD = 9;
 
+    public static Player Player;
+
     static World()
     {
         PopulateWeapons();
         PopulateMonsters();
         PopulateQuests();
         PopulateLocations();
+    }
+
+    public static void AddPlayer(Player player)
+    {
+        World.Player = player;
     }
 
 
@@ -71,7 +79,7 @@ public static class World
                 QUEST_ID_CLEAR_ALCHEMIST_GARDEN,
                 "Clear the alchemist's garden",
                 "Kill rats in the alchemist's garden ",
-                new ClearAlchemistGardenQuest()
+                new ClearAlchemistGardenQuest(), moneyReward: 50, experienceReward: 25
                 );
 
 
@@ -179,6 +187,11 @@ public static class World
         }
 
         return null;
+    }
+
+    public static Player GetPlayer()
+    {
+        return World.Player;
     }
 
     public static Weapon WeaponByID(int id)
