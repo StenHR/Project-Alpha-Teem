@@ -175,9 +175,7 @@
         if (player.CurrentLocation == World.LocationByID(World.LOCATION_ID_TOWN_SQUARE))
         {
             Print.Dialog("[E] Enter Store", 
-                ConsoleColor.Yellow, 
-                Print.PrintStyle.TypeEffect, 
-                Print.ColorMode.Single);
+                ConsoleColor.Yellow);
         }
         
         Print.Dialog("[L] Quest Log", 
