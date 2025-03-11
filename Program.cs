@@ -254,10 +254,10 @@
                 
             case "l":
                 Console.Clear();
+                if (player.CurrentQuest != null)
+                    player.CurrentQuest.QuestLine.RunQuest();
                 player.CurrentLocation.ShowQuests();
                 player.CurrentQuest = player.CurrentLocation.PickQuest();
-                if(player.CurrentQuest != null)
-                    player.CurrentQuest.QuestLine.RunQuest();
                 break;
                 
             case "i":
