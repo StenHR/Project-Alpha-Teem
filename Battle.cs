@@ -26,7 +26,7 @@ public class Battle // Initialize a battle together with a while loop: while (Ba
 
     public void MonsterAttack()
     {
-        int damage = Self.CurrentWeapon.CalculateDamage();
+        int damage = Enemy.CalculateDamage();
         Self.CurrentHitPoints -= Convert.ToInt32(damage);
         Print.Dialog($"{Enemy.Name} hit {Self.Name} for {damage} damage!",
             style: Print.PrintStyle.TypeEffect,
@@ -49,11 +49,8 @@ public class Battle // Initialize a battle together with a while loop: while (Ba
             Console.WriteLine(Info());
         } else if (Self.CurrentHitPoints <= 0)
         {
-            Print.Dialog("You died...",
-                style: Print.PrintStyle.TypeEffect,
-                color: ConsoleColor.DarkRed);
-            // respawn here
             this.Active = false;
+            Self.Die();
         } else if (Enemy.CurrentHitPoints <= 0)
         {
             Print.Dialog($"{Self.Name} has defeated {Enemy.Name}!",
