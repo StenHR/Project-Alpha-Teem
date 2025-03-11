@@ -16,21 +16,33 @@ public class Battle // Initialize a battle together with a while loop: while (Ba
     }
 
     public void PlayerAttack()
-    {
-        int damage = Self.CurrentWeapon.CalculateDamage();
-        Enemy.CurrentHitPoints -= Convert.ToInt32(damage);
-        Print.Dialog($"{Self.Name} hit {Enemy.Name} for {damage} damage!", 
-            style: Print.PrintStyle.TypeEffect,
-            color: ConsoleColor.Green);
+    {   
+        // Check to make the sword of spider slaying one shot.
+        if (Self.CurrentWeapon.ID == World.WEAPON_ID_SWORD_OF_SPIDER_SLAYING && Enemy.ID == World.MONSTER_ID_GIANT_SPIDER)
+        {
+            Enemy.CurrentHitPoints = 0;
+            Print.Dialog($"You used the Sword of Spider Slaying and one shot the {Enemy.Name}!", ConsoleColor.Green);
+        }
+        else
+        {
+            int damage = Self.CurrentWeapon.CalculateDamage();
+            Enemy.CurrentHitPoints -= Convert.ToInt32(damage);
+            Print.Dialog($"{Self.Name} hit {Enemy.Name} for {damage} damage!", 
+                style: Print.PrintStyle.TypeEffect,
+                color: ConsoleColor.Green);
+        }
     }
 
     public void MonsterAttack()
     {
-        int damage = Enemy.CalculateDamage();
-        Self.CurrentHitPoints -= Convert.ToInt32(damage);
-        Print.Dialog($"{Enemy.Name} hit {Self.Name} for {damage} damage!",
-            style: Print.PrintStyle.TypeEffect,
-            color: ConsoleColor.Red);
+        if (Enemy.CurrentHitPoints > 0)
+        {
+            int damage = Enemy.CalculateDamage();
+            Self.CurrentHitPoints -= Convert.ToInt32(damage);
+            Print.Dialog($"{Enemy.Name} hit {Self.Name} for {damage} damage!",
+                style: Print.PrintStyle.TypeEffect,
+                color: ConsoleColor.Red);
+        }
     }
 
     public string Info()
