@@ -208,7 +208,6 @@ public static class World
     }
 
 
-
     public static Monster MonsterByID(int id)
     {
         foreach (Monster monster in Monsters)
