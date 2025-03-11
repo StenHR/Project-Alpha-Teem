@@ -89,7 +89,7 @@ public static class World
                 QUEST_ID_CLEAR_FARMERS_FIELD,
                 "Clear the farmer's field",
                 "Kill snakes in the farmer's field",
-                new ClearFarmersFieldQuest()
+                new ClearFarmersFieldQuest(), moneyReward: 100, experienceReward: 50
                 );
 
 

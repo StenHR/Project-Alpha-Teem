@@ -11,7 +11,8 @@ public class Battle // Initialize a battle together with a while loop: while (Ba
         Active = true;
 
         Print.Dialog($"Battle started against {Enemy.Name}!",
-            style: Print.PrintStyle.TypeEffect);
+            style: Print.PrintStyle.TypeEffect,
+            color: ConsoleColor.Yellow);
     }
 
     public void PlayerAttack()
@@ -19,7 +20,8 @@ public class Battle // Initialize a battle together with a while loop: while (Ba
         int damage = Self.CurrentWeapon.CalculateDamage();
         Enemy.CurrentHitPoints -= Convert.ToInt32(damage);
         Print.Dialog($"{Self.Name} hit {Enemy.Name} for {damage} damage!", 
-            style: Print.PrintStyle.TypeEffect);
+            style: Print.PrintStyle.TypeEffect,
+            color: ConsoleColor.Green);
     }
 
     public void MonsterAttack()
@@ -27,10 +29,17 @@ public class Battle // Initialize a battle together with a while loop: while (Ba
         int damage = Self.CurrentWeapon.CalculateDamage();
         Self.CurrentHitPoints -= Convert.ToInt32(damage);
         Print.Dialog($"{Enemy.Name} hit {Self.Name} for {damage} damage!",
-            style: Print.PrintStyle.TypeEffect);
+            style: Print.PrintStyle.TypeEffect,
+            color: ConsoleColor.Red);
     }
 
-    public string Info() => $"{Self.GetPlayerStats()}\n{Enemy.GetMonsterStats()}";
+    public string Info()
+    {
+        Self.CurrentHitPoints = Self.CurrentHitPoints < 0 ? 0 : Self.CurrentHitPoints;
+        Enemy.CurrentHitPoints = Enemy.CurrentHitPoints < 0 ? 0 : Enemy.CurrentHitPoints;
+
+        return $"{Self.GetPlayerStats()}\n{Enemy.GetMonsterStats()}";
+    }
 
     public void Turn()
     {
@@ -38,9 +47,21 @@ public class Battle // Initialize a battle together with a while loop: while (Ba
             PlayerAttack();
             MonsterAttack();
             Console.WriteLine(Info());
-        } else
-        { 
-            Active = false;
+        } else if (Self.CurrentHitPoints <= 0)
+        {
+            Print.Dialog("You died...",
+                style: Print.PrintStyle.TypeEffect,
+                color: ConsoleColor.DarkRed);
+            // respawn here
+            this.Active = false;
+        } else if (Enemy.CurrentHitPoints <= 0)
+        {
+            Print.Dialog($"{Self.Name} has defeated {Enemy.Name}!",
+                style: Print.PrintStyle.TypeEffect,
+                color: ConsoleColor.Green);
+         
+            this.Active = false;
         }
+        Thread.Sleep(200);
     }
 }
