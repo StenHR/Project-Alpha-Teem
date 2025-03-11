@@ -30,38 +30,27 @@ public class ClearAlchemistGardenQuest: QuestLine
             return;
         }
 
-        Battle battleEnemy1 = new Battle(player: World.Player, this.Enemies[0]);
-
-        while (battleEnemy1.Active)
+        foreach (Monster rat in this.Enemies)
         {
-            battleEnemy1.Turn();
+            Battle battle = new Battle(player: World.Player, monster: rat);
+            while (battle.Active)
+            {
+                battle.Turn();
+            }
+
+            Console.WriteLine("\n");
+            Thread.Sleep(1000);
         }
-
-        battleEnemy1.Active = false;
-
-        Battle battleEnemy2 = new Battle(player: World.Player, this.Enemies[1]);
-
-        while (battleEnemy2.Active)
-        {
-            battleEnemy1.Turn();
-        }
-
-        battleEnemy2.Active = false;
-
-        Battle battleEnemy3 = new Battle(player: World.Player, this.Enemies[2]);
-
-        while (battleEnemy3.Active)
-        {
-            battleEnemy1.Turn();
-        }
-
-        battleEnemy3.Active = false;
 
         //// Implementeer hier de quest logica, dit kunnen trackers, acties, dialogen, puzzels, etc. zijn.
         //// Als een quest verwacht dat je naar een andere area gaat en daar iets doet, maak dan een nieuwe questline aan voor die area met de verwachte acties.
         Print.Dialog("You have cleared the Alchemist's Garden of all the spiders. The people of the town are grateful for your help.",
-            style: Print.PrintStyle.TypeEffect);
-        World.Player.ReceiveQuestRewards(50, 25);
+            style: Print.PrintStyle.TypeEffect, color: ConsoleColor.Green);
+
+        Print.Dialog($"You are awarded {World.QuestByID(1).MoneyReward} coin(s), and {World.QuestByID(1).ExperienceReward} XP!",
+    style: Print.PrintStyle.TypeEffect, color: ConsoleColor.Green);
+
+        World.Player.ReceiveQuestRewards(World.QuestByID(1).MoneyReward, World.QuestByID(1).ExperienceReward);
         World.Player.CurrentQuest = null;
         Thread.Sleep(1000);
     }
