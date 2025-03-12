@@ -28,7 +28,7 @@ public class ClearFarmersFieldQuest : QuestLine
                 Battle battle = new Battle(player, snake);
                 while (battle.Active)
                 {
-                    battle.Turn();
+                    battle.BattleMenu();
                 }
                 Thread.Sleep(2000);
                 Console.Clear();

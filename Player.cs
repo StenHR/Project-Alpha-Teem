@@ -19,7 +19,7 @@ public class Player
         this.CurrentHitPoints = currentHitPoints;
         this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
-        this.Money = 300;
+        this.Money = 50;
         this.CurrentQuest = null;
         this.Experience = 0;
         this.Alive = true;

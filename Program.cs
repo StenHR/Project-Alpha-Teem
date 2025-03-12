@@ -82,7 +82,7 @@
             
         Thread.Sleep(2000);
 
-        var gameRunning = true;
+        bool gameRunning = true;
         while (gameRunning)
         {
             Console.Clear();
