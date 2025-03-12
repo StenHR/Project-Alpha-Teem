@@ -137,6 +137,18 @@ public class Player
 
         if (newLocation != null)
         {
+            if (CurrentLocation == World.LocationByID(World.LOCATION_ID_GUARD_POST) && direction.ToLower() == "east")
+            {
+                if (!Inventory.Any(item => item.ID == World.WEAPON_ID_SWORD_OF_SPIDER_SLAYING))
+                {
+                    Console.Clear();
+                    Print.Dialog("The guard looks at you and says", ConsoleColor.Yellow);
+                    Print.Dialog("I'm sorry, but without the proper equipment, you're not getting through. No exceptions.");
+                    Thread.Sleep(4000);
+                    return;
+                }
+            }
+
             CurrentLocation = newLocation;
             Print.Dialog($"You have moved to {CurrentLocation.Name}");
             Print.Dialog(CurrentLocation.ShowDescription());
