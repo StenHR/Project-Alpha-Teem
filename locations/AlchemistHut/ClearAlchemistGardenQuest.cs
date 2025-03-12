@@ -36,6 +36,8 @@ public class ClearAlchemistGardenQuest: QuestLine
             return;
         }
 
+        Console.Clear();
+
         foreach (Monster rat in this.Enemies)
         {
             Battle battle = new Battle(player: World.Player, monster: rat);
@@ -44,8 +46,8 @@ public class ClearAlchemistGardenQuest: QuestLine
                 battle.BattleMenu();
             }
 
-            Console.WriteLine("\n");
             Thread.Sleep(1000);
+            Console.Clear();
         }
 
         //// Implementeer hier de quest logica, dit kunnen trackers, acties, dialogen, puzzels, etc. zijn.

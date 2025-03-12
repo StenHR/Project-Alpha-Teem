@@ -4,6 +4,7 @@ public class Battle
     public Monster Enemy;
     public bool Active;
     public bool PossibleRunAway;
+    private Random random;
 
     public Battle(Player player, Monster monster)
     {
@@ -11,6 +12,7 @@ public class Battle
         Enemy = monster;
         Active = true;
         PossibleRunAway = true;
+        random = new Random();
 
 
         Print.Dialog($"Battle started against {Enemy.Name}!",
@@ -64,7 +66,7 @@ public class Battle
         Print.Dialog("[a] Attack", ConsoleColor.Red);
         if (this.PossibleRunAway)
         {
-            Print.Dialog("[r] Run (5% success rate)", ConsoleColor.Cyan);
+            Print.Dialog("[r] Run (15% success rate)", ConsoleColor.Cyan);
         }
         
 
@@ -77,7 +79,8 @@ public class Battle
                 this.Self.EquipInventoryItem();
                 break;
             case "a":
-                if (Chance())
+                bool playerAttacksFirst = ChanceAttack();
+                if (playerAttacksFirst)
                 {
                     Turn();
                 }
@@ -90,7 +93,7 @@ public class Battle
             case "r":
                 if (this.PossibleRunAway)
                 {
-                    if (Chance())
+                    if (RunChance())
                     {
                         Print.Dialog("You sucesfully ran away!", ConsoleColor.Green);
                         Thread.Sleep(1000);
@@ -113,12 +116,21 @@ public class Battle
                 Print.Dialog("Choose a valid action.", ConsoleColor.Red);
                 break;
         }
+        if (this.Active == true)
+        {
+            this.BattleMenu();
+        }
     }
 
-    public bool Chance()
+    // 70% chance player attacks first and 30% for the enemy.
+    public bool ChanceAttack()
     {
-        Random random = new Random();
-        return random.Next(1, 21) == 1;
+        return random.Next(0, 100) >= 30;
+    }
+
+    public bool RunChance()
+    {
+        return random.Next(0, 100) >= 85;
     }
 
     public void Turn()
@@ -135,11 +147,8 @@ public class Battle
 
     public void ReversedTurn()
     {
-        if (Self.CurrentHitPoints > 0 && Enemy.CurrentHitPoints > 0)
-        {
-            MonsterAttack();
-            Console.WriteLine(Info());
-        }
+        MonsterAttack();
+        Console.WriteLine(Info());
         CheckHealthStatuses();
         Thread.Sleep(200);
     }
