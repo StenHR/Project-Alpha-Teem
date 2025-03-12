@@ -68,7 +68,7 @@ public class Player
         bool running = true;
         while(running)
         {
-            Print.Dialog("Select the item to equip:", ConsoleColor.Cyan);
+            Print.Dialog("Select the item to equip (press any other key to cancel):", ConsoleColor.Cyan);
 
             if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 0 && choice < this.Inventory.Count)
             {
@@ -94,9 +94,9 @@ public class Player
             }
             else
             {
-                Print.Dialog("Invalid choice.", ConsoleColor.Red);
+                Print.Dialog("Selection cancelled", ConsoleColor.Red);
                 Thread.Sleep(1000);
-                continue;
+                running = false;
             }
         }
 
