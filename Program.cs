@@ -46,8 +46,7 @@
         while (string.IsNullOrWhiteSpace(name));
 
         Location startLocation = World.LocationByID(World.LOCATION_ID_HOME);
-        Player player = new(name, startLocation);
-        player.CurrentWeapon = World.Weapons[0];
+        Player player = new(name, startLocation, weaponEquipped: World.WeaponByID(1));
         World.AddPlayer(player);
         
         Console.Clear();

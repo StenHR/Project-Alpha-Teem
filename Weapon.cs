@@ -2,14 +2,12 @@ public class Weapon : Item
 {
     public int MaximumDamage;
     public double critChance;
-    public bool IsEquipped;
 
     public Weapon(int id, string name, int maximumDamage, double cc, int gold)
         : base (id, name, gold)
     {
         MaximumDamage = maximumDamage;
         critChance = cc;
-        IsEquipped = false;
     }
 
     public int CalculateDamage()

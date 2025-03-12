@@ -42,7 +42,7 @@ public class Player
 
             if (this.Inventory[i] is Weapon weaponItem)
             {
-                if (weaponItem.IsEquipped)
+                if (weaponItem.Equals(this.CurrentWeapon))
                 {
                     dialog += " [*]";
                 }
@@ -65,29 +65,42 @@ public class Player
             return;
         }
 
-        Print.Dialog("Select the item to equip:", ConsoleColor.Cyan);
-
-        if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 0 && choice < this.Inventory.Count)
+        bool running = true;
+        while(running)
         {
-            if (this.Inventory[choice] is Weapon selectedWeapon)
+            Print.Dialog("Select the item to equip:", ConsoleColor.Cyan);
+
+            if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 0 && choice < this.Inventory.Count)
             {
-                this.CurrentWeapon.IsEquipped = false;
-                this.CurrentWeapon = selectedWeapon;
-                this.CurrentWeapon.IsEquipped = true;
-                Print.Dialog($"You have equipped {selectedWeapon.Name}.", ConsoleColor.Green);
+                if (this.Inventory[choice] is Weapon selectedWeapon)
+                {
+                    if (selectedWeapon.Equals(this.CurrentWeapon))
+                    {
+                        Print.Dialog("You have this item already equipped!", ConsoleColor.Red);
+                        Thread.Sleep(1000);
+                        continue;
+                    }
+
+                    this.CurrentWeapon = selectedWeapon;
+                    Print.Dialog($"You have equipped {selectedWeapon.Name}.", ConsoleColor.Green);
+                    running = false;
+                }
+                else
+                {
+                    Print.Dialog("You can only equip weapons.", ConsoleColor.Red);
+                    Thread.Sleep(1000);
+                    continue;
+                }
             }
             else
             {
-                Print.Dialog("You can only equip weapons.", ConsoleColor.Red);
+                Print.Dialog("Invalid choice.", ConsoleColor.Red);
                 Thread.Sleep(1000);
+                continue;
             }
         }
-        else
-        {
-            Print.Dialog("Invalid choice.", ConsoleColor.Red);
-            Thread.Sleep(1000);
-        }
-        
+
+        return;
     }
 
     // Receiving rewards for finishing quests;
