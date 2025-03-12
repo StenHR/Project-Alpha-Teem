@@ -8,7 +8,7 @@ public class ClearAlchemistGardenQuest: QuestLine
 
     public ClearAlchemistGardenQuest()
     {
-        for (int i = 0; i <= 3; i++)
+        for (int i = 0; i <= 2; i++)
         {
             this.Enemies.Add(new Monster(rat.ID, rat.Name, rat.BaseDamage, rat.CurrentHitPoints, rat.critChance));
         }
@@ -21,7 +21,13 @@ public class ClearAlchemistGardenQuest: QuestLine
 
         do
         {
-            Print.Dialog($"You are in the {World.Player.CurrentLocation.Name} and you see the rats. Clear them out? [y/n]", style: Print.PrintStyle.TypeEffect);
+            if (!World.Player.CurrentLocation.Equals(World.LocationByID(5)))
+            {
+                World.Player.CurrentLocation = World.LocationByID(5);
+                Print.Dialog($"You travelled to {World.Player.CurrentLocation.Name}", ConsoleColor.Green, style: Print.PrintStyle.TypeEffect);
+            }
+
+            Print.Dialog($"You are in the {World.Player.CurrentLocation.Name} and you see {this.Enemies.Count} rats. Clear them out? [y/n]", style: Print.PrintStyle.TypeEffect);
             startQuest = Console.ReadLine().ToLower();
         } while (string.IsNullOrEmpty(startQuest) && startQuest != "y" && startQuest != "n");
 
@@ -30,16 +36,18 @@ public class ClearAlchemistGardenQuest: QuestLine
             return;
         }
 
+        Console.Clear();
+
         foreach (Monster rat in this.Enemies)
         {
             Battle battle = new Battle(player: World.Player, monster: rat);
             while (battle.Active)
             {
-                battle.Turn();
+                battle.BattleMenu();
             }
 
-            Console.WriteLine("\n");
             Thread.Sleep(1000);
+            Console.Clear();
         }
 
         //// Implementeer hier de quest logica, dit kunnen trackers, acties, dialogen, puzzels, etc. zijn.
