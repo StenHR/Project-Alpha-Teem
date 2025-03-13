@@ -30,11 +30,6 @@ public class Location
         
         Print.Dialog(new string('=', 50), 
             ConsoleColor.DarkGray);
-        
-        foreach (var q in QuestAvailableHere)
-        {
-            Print.Dialog($"Quest: {q.Name}, IsAvailable: {q.IsAvailable}", ConsoleColor.Magenta);
-        }
     
         var availableQuests = QuestAvailableHere?.Where(q => q.IsAvailable).ToList();
 

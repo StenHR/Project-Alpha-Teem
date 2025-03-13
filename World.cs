@@ -26,6 +26,8 @@ public static class World
     public const int QUEST_ID_START_SPIDER_SILK = 3;
     public const int QUEST_ID_BATTLE_SPIDERS = 4;
     public const int QUEST_ID_COMPLETE_SPIDER_SILK = 5;
+    
+    public const int QUEST_ID_BEAT_GIANT_SPIDER = 6;
 
     public const int LOCATION_ID_HOME = 1;
     public const int LOCATION_ID_TOWN_SQUARE = 2;
@@ -85,7 +87,7 @@ public static class World
                 "Clear the alchemist's garden",
                 "Kill rats in the alchemist's garden ",
                 new ClearAlchemistGardenQuest(), moneyReward: 50, experienceReward: 25
-                );
+            );
 
         Quest clearFarmersField =
             new Quest(
@@ -93,7 +95,7 @@ public static class World
                 "Clear the farmer's field",
                 "Kill snakes in the farmer's field",
                 new ClearFarmersFieldQuest(), moneyReward: 100, experienceReward: 50
-                );
+            );
 
 
         List<Quest> collectSpiderSilkQuestChain = new List<Quest>
@@ -102,26 +104,35 @@ public static class World
                 QUEST_ID_START_SPIDER_SILK,
                 "Cotton Spider Candy",
                 "Meet Grissom, the old candy seller in the village square",
-                new StartCollectSpiderSilkQuest()
+                new StartCollectSpiderSilkQuest(),
+                moneyReward: 25, experienceReward: 15
             ),
             new Quest(
                 QUEST_ID_BATTLE_SPIDERS,
                 "Silkfang Hunting",
                 "Collect spider silk from Silkfang spiders in the forest west of the bridge",
                 new ForestSpiderBattleQuest(),
-                false
+                false, moneyReward: 60, experienceReward: 120
             ),
             new Quest(
                 QUEST_ID_COMPLETE_SPIDER_SILK,
                 "Sweet Rewards",
                 "Return to Grissom with the spider silk to collect your reward",
                 new CompleteSpiderSilkQuest(),
-                false, 100, 50
+                false, moneyReward: 100, experienceReward: 150
             )
         };
+    
+        Quest beatGiantSpider = new Quest(
+            QUEST_ID_BEAT_GIANT_SPIDER,
+            "Defeat the Giant Spider",
+            "Defeat the Giant Spider in the forest",
+            new BeatGiantSpiderQuest(), moneyReward: 75, experienceReward: 300
+        );
 
         Quests.Add(clearAlchemistGarden);
         Quests.Add(clearFarmersField);
+        Quests.Add(beatGiantSpider);
         foreach (Quest quest in collectSpiderSilkQuestChain)
         {
             Quests.Add(quest);
@@ -155,6 +166,7 @@ public static class World
 
         Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering covering the trees in this forest.", null, null);
         spiderField.QuestAvailableHere.Add(QuestByID(QUEST_ID_BATTLE_SPIDERS));
+        spiderField.QuestAvailableHere.Add(QuestByID(QUEST_ID_BEAT_GIANT_SPIDER));
         spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
 
         //Location store = new Location(LOCATION_ID_STORE, "Store", "A place to buy.", null, null);
