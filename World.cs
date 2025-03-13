@@ -1,4 +1,7 @@
+using System.Runtime.CompilerServices;
 using Project_Alpha_Teem.locations.AlchemistsGarden;
+using Project_Alpha_Teem.locations.Bridge;
+using Project_Alpha_Teem.locations.Forrest;
 
 public static class World
 {
@@ -19,7 +22,12 @@ public static class World
 
     public const int QUEST_ID_CLEAR_ALCHEMIST_GARDEN = 1;
     public const int QUEST_ID_CLEAR_FARMERS_FIELD = 2;
-    public const int QUEST_ID_COLLECT_SPIDER_SILK = 3;
+    
+    public const int QUEST_ID_START_SPIDER_SILK = 3;
+    public const int QUEST_ID_BATTLE_SPIDERS = 4;
+    public const int QUEST_ID_COMPLETE_SPIDER_SILK = 5;
+    
+    public const int QUEST_ID_BEAT_GIANT_SPIDER = 6;
 
     public const int LOCATION_ID_HOME = 1;
     public const int LOCATION_ID_TOWN_SQUARE = 2;
@@ -31,12 +39,19 @@ public static class World
     public const int LOCATION_ID_BRIDGE = 8;
     public const int LOCATION_ID_SPIDER_FIELD = 9;
 
+    public static Player Player;
+
     static World()
     {
         PopulateWeapons();
         PopulateMonsters();
         PopulateQuests();
         PopulateLocations();
+    }
+
+    public static void AddPlayer(Player player)
+    {
+        World.Player = player;
     }
 
 
@@ -50,7 +65,7 @@ public static class World
 
     public static void PopulateMonsters()
     {
-        Monster rat = new Monster(MONSTER_ID_RAT, "rat", 1, 3, 3);
+        Monster rat = new Monster(MONSTER_ID_RAT, "rat", 3, 5, 2);
 
 
         Monster snake = new Monster(MONSTER_ID_SNAKE, "snake", 10, 7, 7);
@@ -71,37 +86,62 @@ public static class World
                 QUEST_ID_CLEAR_ALCHEMIST_GARDEN,
                 "Clear the alchemist's garden",
                 "Kill rats in the alchemist's garden ",
-                new ClearAlchemistGardenQuest()
-                );
-
-
+                new ClearAlchemistGardenQuest(), moneyReward: 50, experienceReward: 25
+            );
 
         Quest clearFarmersField =
             new Quest(
                 QUEST_ID_CLEAR_FARMERS_FIELD,
                 "Clear the farmer's field",
                 "Kill snakes in the farmer's field",
-                new ClearFarmersFieldQuest()
-                );
+                new ClearFarmersFieldQuest(), moneyReward: 100, experienceReward: 50
+            );
 
 
-        Quest clearSpidersForest =
+        List<Quest> collectSpiderSilkQuestChain = new List<Quest>
+        {
             new Quest(
-                QUEST_ID_COLLECT_SPIDER_SILK,
-                "Collect spider silk",
-                "Kill spiders in the spider forest",
-                new CollectSpiderSilkQuest()
-                );
-
+                QUEST_ID_START_SPIDER_SILK,
+                "Cotton Spider Candy",
+                "Meet Grissom, the old candy seller in the village square",
+                new StartCollectSpiderSilkQuest(),
+                moneyReward: 25, experienceReward: 15
+            ),
+            new Quest(
+                QUEST_ID_BATTLE_SPIDERS,
+                "Silkfang Hunting",
+                "Collect spider silk from Silkfang spiders in the forest west of the bridge",
+                new ForestSpiderBattleQuest(),
+                false, moneyReward: 60, experienceReward: 120
+            ),
+            new Quest(
+                QUEST_ID_COMPLETE_SPIDER_SILK,
+                "Sweet Rewards",
+                "Return to Grissom with the spider silk to collect your reward",
+                new CompleteSpiderSilkQuest(),
+                false, moneyReward: 100, experienceReward: 150
+            )
+        };
+    
+        Quest beatGiantSpider = new Quest(
+            QUEST_ID_BEAT_GIANT_SPIDER,
+            "Defeat the Giant Spider",
+            "Defeat the Giant Spider in the forest",
+            new BeatGiantSpiderQuest(), moneyReward: 75, experienceReward: 300
+        );
 
         Quests.Add(clearAlchemistGarden);
         Quests.Add(clearFarmersField);
-        Quests.Add(clearSpidersForest);
+        Quests.Add(beatGiantSpider);
+        foreach (Quest quest in collectSpiderSilkQuestChain)
+        {
+            Quests.Add(quest);
+        }
     }
 
     public static void PopulateLocations()
     {
-        // Create each location
+        // Create each locationn
         Location home = new Location(LOCATION_ID_HOME, "Home", "Your house. You really need to clean up the place.", null, null);
 
         Location townSquare = new Location(LOCATION_ID_TOWN_SQUARE, "Town square", "You see a fountain.", null, null);
@@ -121,9 +161,12 @@ public static class World
         Location guardPost = new Location(LOCATION_ID_GUARD_POST, "Guard post", "There is a large, tough-looking guard here.", null, null);
 
         Location bridge = new Location(LOCATION_ID_BRIDGE, "Bridge", "A stone bridge crosses a wide river.", null, null);
-        bridge.QuestAvailableHere.Add(QuestByID(QUEST_ID_COLLECT_SPIDER_SILK));
+        bridge.QuestAvailableHere.Add(QuestByID(QUEST_ID_START_SPIDER_SILK));
+        bridge.QuestAvailableHere.Add(QuestByID(QUEST_ID_COMPLETE_SPIDER_SILK));
 
         Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering covering the trees in this forest.", null, null);
+        spiderField.QuestAvailableHere.Add(QuestByID(QUEST_ID_BATTLE_SPIDERS));
+        spiderField.QuestAvailableHere.Add(QuestByID(QUEST_ID_BEAT_GIANT_SPIDER));
         spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
 
         //Location store = new Location(LOCATION_ID_STORE, "Store", "A place to buy.", null, null);
@@ -181,6 +224,11 @@ public static class World
         return null;
     }
 
+    public static Player GetPlayer()
+    {
+        return World.Player;
+    }
+
     public static Weapon WeaponByID(int id)
     {
         foreach (Weapon item in Weapons)
@@ -193,7 +241,6 @@ public static class World
 
         return null;
     }
-
 
 
     public static Monster MonsterByID(int id)

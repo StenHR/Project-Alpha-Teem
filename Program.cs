@@ -1,4 +1,6 @@
-﻿class Program
+﻿using Project_Alpha_Teem;
+
+class Program
 {
     public static void Main()
     {
@@ -46,8 +48,8 @@
         while (string.IsNullOrWhiteSpace(name));
 
         Location startLocation = World.LocationByID(World.LOCATION_ID_HOME);
-        Player player = new(name, startLocation);
-        player.CurrentWeapon = World.Weapons[0];
+        Player player = new(name, startLocation, weaponEquipped: World.WeaponByID(1));
+        World.AddPlayer(player);
         
         Console.Clear();
         Print.Dialog($"Welcome to the adventure, {player.Name}!", 
@@ -82,7 +84,7 @@
             
         Thread.Sleep(2000);
 
-        var gameRunning = true;
+        bool gameRunning = true;
         while (gameRunning)
         {
             Console.Clear();
@@ -112,23 +114,38 @@
     {
         Print.Dialog($"PLAYER: {player.Name}", 
             ConsoleColor.Yellow, 
-            Print.PrintStyle.TypeEffect, 
+            Print.PrintStyle.Instant, 
             typeSpeed: 20);
-            
+
+        Print.Dialog($"Health: {player.CurrentHitPoints}",
+            ConsoleColor.Red,
+            Print.PrintStyle.Instant,
+            typeSpeed: 20);
+
+        Print.Dialog($"Money: {player.Money}",
+            ConsoleColor.Yellow,
+            Print.PrintStyle.Instant,
+            typeSpeed: 20);
+
+        Print.Dialog($"Experience: {player.Experience}",
+            ConsoleColor.Blue,
+            Print.PrintStyle.Instant,
+            typeSpeed: 20);
+
         Print.Dialog("LOCATION: ", 
             ConsoleColor.Magenta, 
-            Print.PrintStyle.TypeEffect, 
+            Print.PrintStyle.Instant, 
             typeSpeed: 20, 
             addNewLine: false);
             
         Print.Dialog(player.CurrentLocation.Name, 
             ConsoleColor.Magenta, 
-            Print.PrintStyle.TypeEffect,  
+            Print.PrintStyle.Instant,  
             typeSpeed: 40);
             
         Print.Dialog(player.CurrentLocation.Description, 
             ConsoleColor.White, 
-            Print.PrintStyle.TypeEffect, 
+            Print.PrintStyle.Instant, 
             typeSpeed: 30);
     }
 
@@ -159,9 +176,7 @@
         if (player.CurrentLocation == World.LocationByID(World.LOCATION_ID_TOWN_SQUARE))
         {
             Print.Dialog("[E] Enter Store", 
-                ConsoleColor.Yellow, 
-                Print.PrintStyle.TypeEffect, 
-                Print.ColorMode.Single);
+                ConsoleColor.Yellow);
         }
         
         Print.Dialog("[L] Quest Log", 
@@ -249,15 +264,24 @@
                 Print.Dialog("INVENTORY", 
                     ConsoleColor.Yellow, 
                     Print.PrintStyle.TypeEffect, 
-                    Print.ColorMode.Gradient);
+                    Print.ColorMode.Single);
                 
-                int itemToBeEquipped = player.GetInventory() ?? 0;
-                if (itemToBeEquipped > 0)
+                player.GetInventory();
+
+                string answer;
+                do
                 {
-                    Print.Dialog(player.EquipInventoryItem(itemToBeEquipped), 
-                        ConsoleColor.Green, 
-                        Print.PrintStyle.TypeEffect);
+                    Print.Dialog("Do you also want to equip an item? [y/n]", color: ConsoleColor.Green);
+                    answer = Console.ReadLine().ToLower();
                 }
+                while (string.IsNullOrWhiteSpace(answer));
+
+                if(answer == "n")
+                {
+                    break;
+                }
+
+                player.EquipInventoryItem();
                 
                 Print.Dialog("Press any key to continue...", 
                     ConsoleColor.DarkGray);

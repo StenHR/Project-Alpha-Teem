@@ -12,4 +12,10 @@
     <Folder Include="locations\SpidersForest\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ascii_art.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
