@@ -8,6 +8,7 @@ public class Player
     public List<Item> Inventory = new() { World.Weapons[0] };
     public int Money;
     public int Experience;
+    public bool Alive;
 
     // Player class constructor; When creating the player object the fields name and location are required.
     // Default player health = 100. And the player starts with no money, experience or weapons
@@ -18,9 +19,10 @@ public class Player
         this.CurrentHitPoints = currentHitPoints;
         this.CurrentWeapon = weaponEquipped;
         this.CurrentLocation = location;
-        this.Money = 300;
+        this.Money = 50;
         this.CurrentQuest = null;
         this.Experience = 0;
+        this.Alive = true;
     }
 
     // Returning simple player stats;
@@ -40,7 +42,7 @@ public class Player
 
             if (this.Inventory[i] is Weapon weaponItem)
             {
-                if (weaponItem.IsEquipped)
+                if (weaponItem.Equals(this.CurrentWeapon))
                 {
                     dialog += " [*]";
                 }
@@ -63,29 +65,42 @@ public class Player
             return;
         }
 
-        Print.Dialog("Select the item to equip:", ConsoleColor.Cyan);
-
-        if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 0 && choice < this.Inventory.Count)
+        bool running = true;
+        while(running)
         {
-            if (this.Inventory[choice] is Weapon selectedWeapon)
+            Print.Dialog("Select the item to equip (press any other key to cancel):", ConsoleColor.Cyan);
+
+            if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 0 && choice < this.Inventory.Count)
             {
-                this.CurrentWeapon.IsEquipped = false;
-                this.CurrentWeapon = selectedWeapon;
-                this.CurrentWeapon.IsEquipped = true;
-                Print.Dialog($"You have equipped {selectedWeapon.Name}.", ConsoleColor.Green);
+                if (this.Inventory[choice] is Weapon selectedWeapon)
+                {
+                    if (selectedWeapon.Equals(this.CurrentWeapon))
+                    {
+                        Print.Dialog("You have this item already equipped!", ConsoleColor.Red);
+                        Thread.Sleep(1000);
+                        continue;
+                    }
+
+                    this.CurrentWeapon = selectedWeapon;
+                    Print.Dialog($"You have equipped {selectedWeapon.Name}.", ConsoleColor.Green);
+                    running = false;
+                }
+                else
+                {
+                    Print.Dialog("You can only equip weapons.", ConsoleColor.Red);
+                    Thread.Sleep(1000);
+                    continue;
+                }
             }
             else
             {
-                Print.Dialog("You can only equip weapons.", ConsoleColor.Red);
+                Print.Dialog("Selection cancelled", ConsoleColor.Red);
                 Thread.Sleep(1000);
+                running = false;
             }
         }
-        else
-        {
-            Print.Dialog("Invalid choice.", ConsoleColor.Red);
-            Thread.Sleep(1000);
-        }
-        
+
+        return;
     }
 
     // Receiving rewards for finishing quests;
@@ -122,6 +137,18 @@ public class Player
 
         if (newLocation != null)
         {
+            if (CurrentLocation == World.LocationByID(World.LOCATION_ID_GUARD_POST) && direction.ToLower() == "east")
+            {
+                if (!Inventory.Any(item => item.ID == World.WEAPON_ID_SWORD_OF_SPIDER_SLAYING))
+                {
+                    Console.Clear();
+                    Print.Dialog("The guard looks at you and says", ConsoleColor.Yellow);
+                    Print.Dialog("I'm sorry, but without the proper equipment, you're not getting through. No exceptions.");
+                    Thread.Sleep(4000);
+                    return;
+                }
+            }
+
             CurrentLocation = newLocation;
             Print.Dialog($"You have moved to {CurrentLocation.Name}");
             Print.Dialog(CurrentLocation.ShowDescription());
@@ -131,6 +158,23 @@ public class Player
             Print.Dialog("You can't go that way.");
         }
    }
+
+    public void Die()
+    {
+        this.Alive = false;
+        Print.Dialog("You died......",
+            style: Print.PrintStyle.TypeEffect,
+            color: ConsoleColor.DarkRed,
+            typeSpeed: 40);
+        Print.Dialog("The villagers saw you lying on the ground and decided to bring you back to town...",
+            style: Print.PrintStyle.TypeEffect,
+            typeSpeed: 80,
+            color: ConsoleColor.Red);
+
+        this.Experience -= 10;
+        this.CurrentLocation = World.LocationByID(1);
+        this.CurrentHitPoints = 100;
+    }
    
    public Quest GetCurrentQuest()
    {

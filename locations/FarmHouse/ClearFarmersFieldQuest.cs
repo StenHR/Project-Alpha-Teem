@@ -18,20 +18,30 @@ public class ClearFarmersFieldQuest : QuestLine
         }
 
         Player player = World.Player;
+        player.CurrentLocation = World.LocationByID(7);
+        player.Alive = true;
 
         foreach (Monster snake in snakes)
         {
-            Battle battle = new Battle(player, snake);
-            while (battle.Active)
+            if (player.CurrentLocation == World.LocationByID(7))
             {
-                battle.Turn();
+                Battle battle = new Battle(player, snake);
+                while (battle.Active)
+                {
+                    battle.BattleMenu();
+                }
+                Thread.Sleep(2000);
+                Console.Clear();
             }
-            Thread.Sleep(2000);
-            Console.Clear();
         }
-        Print.Dialog("You have cleared the Farmers Field of all the snakes. The farmers of the town are grateful for your help.",
-            style: Print.PrintStyle.TypeEffect);
-        World.Player.ReceiveQuestRewards(100, 50);
-        Thread.Sleep(1000);
+        if (player.Alive)
+        {
+            Print.Dialog("You have cleared the Farmers Field of all the snakes. The farmers of the town are grateful for your help.",
+                style: Print.PrintStyle.TypeEffect,
+                color: ConsoleColor.Yellow,
+                typeSpeed: 100);
+            World.Player.ReceiveQuestRewards(100, 50);
+            Thread.Sleep(1000);
+        }
     }
 }

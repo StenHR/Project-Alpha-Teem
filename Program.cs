@@ -46,8 +46,7 @@
         while (string.IsNullOrWhiteSpace(name));
 
         Location startLocation = World.LocationByID(World.LOCATION_ID_HOME);
-        Player player = new(name, startLocation);
-        player.CurrentWeapon = World.Weapons[0];
+        Player player = new(name, startLocation, weaponEquipped: World.WeaponByID(1));
         World.AddPlayer(player);
         
         Console.Clear();
@@ -83,7 +82,7 @@
             
         Thread.Sleep(2000);
 
-        var gameRunning = true;
+        bool gameRunning = true;
         while (gameRunning)
         {
             Console.Clear();
@@ -175,9 +174,7 @@
         if (player.CurrentLocation == World.LocationByID(World.LOCATION_ID_TOWN_SQUARE))
         {
             Print.Dialog("[E] Enter Store", 
-                ConsoleColor.Yellow, 
-                Print.PrintStyle.TypeEffect, 
-                Print.ColorMode.Single);
+                ConsoleColor.Yellow);
         }
         
         Print.Dialog("[L] Quest Log", 
