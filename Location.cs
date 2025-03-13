@@ -27,25 +27,32 @@ public class Location
             ConsoleColor.Yellow, 
             Print.PrintStyle.TypeEffect, 
             Print.ColorMode.Single);
-            
+        
         Print.Dialog(new string('=', 50), 
             ConsoleColor.DarkGray);
         
-        if (QuestAvailableHere?.Any() != true)
+        foreach (var q in QuestAvailableHere)
+        {
+            Print.Dialog($"Quest: {q.Name}, IsAvailable: {q.IsAvailable}", ConsoleColor.Magenta);
+        }
+    
+        var availableQuests = QuestAvailableHere?.Where(q => q.IsAvailable).ToList();
+
+        if (availableQuests == null || !availableQuests.Any())
         {
             Print.Dialog("There are no quests available here.", 
                 ConsoleColor.Red, 
                 Print.PrintStyle.TypeEffect);
             return;
         }
-        
-        foreach (var quest in QuestAvailableHere)
+    
+        foreach (var quest in availableQuests)
         {
             Print.Dialog($"QUEST #{quest.ID}: {quest.Name}", 
                 ConsoleColor.Green, 
                 Print.PrintStyle.TypeEffect, 
                 Print.ColorMode.Single);
-                
+            
             Print.Dialog(quest.Description, 
                 ConsoleColor.White, 
                 Print.PrintStyle.TypeEffect, 
@@ -58,43 +65,44 @@ public class Location
     
     public Quest PickQuest()
     {
-        if (QuestAvailableHere?.Any() != true)
+        if (QuestAvailableHere?.Any(q => q.IsAvailable) != true)
         {
             return null;
         }
-        
+    
         Print.Dialog("Enter the number of the quest you want to take:", 
-            ConsoleColor.Cyan, 
-            Print.PrintStyle.TypeEffect, 
+            ConsoleColor.Cyan,
+            Print.PrintStyle.TypeEffect,
             addNewLine: false);
-            
-        string input = Console.ReadLine();
         
+        string input = Console.ReadLine();
+    
         if (!int.TryParse(input, out int questNumber))
-        {
+        {   
             Print.Dialog("Invalid input. Returning to game...", 
                 ConsoleColor.Red, 
                 Print.PrintStyle.TypeEffect);
             Thread.Sleep(1500);
             return null;
         }
-        
+    
         Quest selectedQuest = QuestAvailableHere.FirstOrDefault(q => q.ID == questNumber);
-        
-        if (selectedQuest == null)
+    
+        if (selectedQuest == null || !selectedQuest.IsAvailable)
         {
-            Print.Dialog("Quest not found. Returning to game...", 
+            Print.Dialog("Quest not found or not available. Returning to game...", 
                 ConsoleColor.Red, 
                 Print.PrintStyle.TypeEffect);
             Thread.Sleep(1500);
             return null;
         }
+    
         Console.Clear();
         Print.Dialog($"You have chosen to undertake: {selectedQuest.Name}", 
             ConsoleColor.Green, 
             Print.PrintStyle.TypeEffect, 
             Print.ColorMode.Rainbow);
-            
+        
         Thread.Sleep(1500);
         Console.Clear();
         return selectedQuest;

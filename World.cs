@@ -1,5 +1,7 @@
 using System.Runtime.CompilerServices;
 using Project_Alpha_Teem.locations.AlchemistsGarden;
+using Project_Alpha_Teem.locations.Bridge;
+using Project_Alpha_Teem.locations.Forrest;
 
 public static class World
 {
@@ -20,7 +22,10 @@ public static class World
 
     public const int QUEST_ID_CLEAR_ALCHEMIST_GARDEN = 1;
     public const int QUEST_ID_CLEAR_FARMERS_FIELD = 2;
-    public const int QUEST_ID_COLLECT_SPIDER_SILK = 3;
+    
+    public const int QUEST_ID_START_SPIDER_SILK = 3;
+    public const int QUEST_ID_BATTLE_SPIDERS = 4;
+    public const int QUEST_ID_COMPLETE_SPIDER_SILK = 5;
 
     public const int LOCATION_ID_HOME = 1;
     public const int LOCATION_ID_TOWN_SQUARE = 2;
@@ -82,8 +87,6 @@ public static class World
                 new ClearAlchemistGardenQuest(), moneyReward: 50, experienceReward: 25
                 );
 
-
-
         Quest clearFarmersField =
             new Quest(
                 QUEST_ID_CLEAR_FARMERS_FIELD,
@@ -93,18 +96,36 @@ public static class World
                 );
 
 
-        Quest clearSpidersForest =
+        List<Quest> collectSpiderSilkQuestChain = new List<Quest>
+        {
             new Quest(
-                QUEST_ID_COLLECT_SPIDER_SILK,
-                "Collect spider silk",
-                "Kill spiders in the spider forest",
-                new CollectSpiderSilkQuest()
-                );
-
+                QUEST_ID_START_SPIDER_SILK,
+                "Cotton Spider Candy",
+                "Meet Grissom, the old candy seller in the village square",
+                new StartCollectSpiderSilkQuest()
+            ),
+            new Quest(
+                QUEST_ID_BATTLE_SPIDERS,
+                "Silkfang Hunting",
+                "Collect spider silk from Silkfang spiders in the forest west of the bridge",
+                new ForestSpiderBattleQuest(),
+                false
+            ),
+            new Quest(
+                QUEST_ID_COMPLETE_SPIDER_SILK,
+                "Sweet Rewards",
+                "Return to Grissom with the spider silk to collect your reward",
+                new CompleteSpiderSilkQuest(),
+                false, 100, 50
+            )
+        };
 
         Quests.Add(clearAlchemistGarden);
         Quests.Add(clearFarmersField);
-        Quests.Add(clearSpidersForest);
+        foreach (Quest quest in collectSpiderSilkQuestChain)
+        {
+            Quests.Add(quest);
+        }
     }
 
     public static void PopulateLocations()
@@ -129,9 +150,11 @@ public static class World
         Location guardPost = new Location(LOCATION_ID_GUARD_POST, "Guard post", "There is a large, tough-looking guard here.", null, null);
 
         Location bridge = new Location(LOCATION_ID_BRIDGE, "Bridge", "A stone bridge crosses a wide river.", null, null);
-        bridge.QuestAvailableHere.Add(QuestByID(QUEST_ID_COLLECT_SPIDER_SILK));
+        bridge.QuestAvailableHere.Add(QuestByID(QUEST_ID_START_SPIDER_SILK));
+        bridge.QuestAvailableHere.Add(QuestByID(QUEST_ID_COMPLETE_SPIDER_SILK));
 
         Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering covering the trees in this forest.", null, null);
+        spiderField.QuestAvailableHere.Add(QuestByID(QUEST_ID_BATTLE_SPIDERS));
         spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
 
         //Location store = new Location(LOCATION_ID_STORE, "Store", "A place to buy.", null, null);
