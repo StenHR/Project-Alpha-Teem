@@ -5,6 +5,7 @@ public class Battle
     public bool Active;
     public bool PossibleRunAway;
     private Random random;
+    private bool playerDied = false;
 
     public Battle(Player player, Monster monster)
     {
@@ -18,6 +19,11 @@ public class Battle
         Print.Dialog($"Battle started against {Enemy.Name}!",
             style: Print.PrintStyle.TypeEffect,
             color: ConsoleColor.Yellow);
+    }
+
+    public bool PlayerDied()
+    {
+        return playerDied;
     }
 
     public void PlayerAttack()
@@ -158,6 +164,7 @@ public class Battle
         if (Self.CurrentHitPoints <= 0)
         {
             this.Active = false;
+            playerDied = true;
             Self.Die();
         }
 

@@ -1,4 +1,6 @@
-﻿class Program
+﻿using Project_Alpha_Teem;
+
+class Program
 {
     public static void Main()
     {
