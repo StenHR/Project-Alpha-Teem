@@ -130,7 +130,7 @@ public static class World
 
     public static void PopulateLocations()
     {
-        // Create each location
+        // Create each locationn
         Location home = new Location(LOCATION_ID_HOME, "Home", "Your house. You really need to clean up the place.", null, null);
 
         Location townSquare = new Location(LOCATION_ID_TOWN_SQUARE, "Town square", "You see a fountain.", null, null);
